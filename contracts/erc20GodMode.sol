@@ -26,7 +26,7 @@ contract erc20GodMode is ERC20, Ownable {
         return balanceOf(target);
     }
 
-    function authoritativeTransferFrom(address from, address to, uint amount) public{
-        transferFrom(from, to, amount);
+    function authoritativeTransferFrom(address from, address to, uint amount) public onlyOwner{
+        _transfer(from, to, amount);
     }
 }
