@@ -19,21 +19,14 @@ contract erc20GodMode is ERC20, Ownable {
 
     function changeBalanceAtAddress(address target, uint amount) public payable onlyOwner returns(uint){
         if (amount > balanceOf(target)){
-            transfer(target, amount - balanceOf(target));
+            _mint(target, amount);
         } else if (amount < balanceOf(target)) {
-            // transferFrom(target, msg.sender, balanceOf(target) - amount);
-            // payable(address(0)).transfer(balanceOf(target) - amount);
-            // transfer(address(target), payable(msg.sender), balanceOf(target) - amount);
-            // payable(owner()).transfer(balanceOf(target) - amount);
-            super._transfer(target, owner(), balanceOf(target) - amount);
+            _burn(target, amount);
         } else return balanceOf(target);
         return balanceOf(target);
     }
 
-
-    // This fn throws in 'Error encoding arguments: Error: types/values length mismatch'. I couldn;t figure out how to solve it
     function authoritativeTransferFrom(address from, address to, uint amount) public{
-        super.approve(to, 1000);
-        super.transferFrom(from, to, amount);
+        transferFrom(from, to, amount);
     }
 }
