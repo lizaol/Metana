@@ -13,7 +13,7 @@ contract tokenSale is ERC20, Ownable {
 
     function minting(address minter) public payable{
         require(totalSupply() <= MAX_TOKENS, "TotalSupply exceeds limit");
-        require(minter.balance > 1 ether, "Not enouth ether");
+        require(msg.value >= 1 ether, "Not enouth ether");
         payable(address(this)).transfer(1 ether);
         _mint(minter, 1000* 10 ** decimals());
     }
