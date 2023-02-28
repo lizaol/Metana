@@ -1,4 +1,3 @@
-// contracts/GLDToken.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
@@ -11,7 +10,7 @@ contract partialRefund is ERC20, Ownable, AccessControl {
 
 
     constructor() ERC20("Gold", "GLD") {}
-    uint private MAX_TOKENS = 999000 * 10 ** decimals();
+    uint private MAX_TOKENS = 1000000 * 10 ** decimals();
     IERC20 public token;
 
     // Token Sale
@@ -30,16 +29,18 @@ contract partialRefund is ERC20, Ownable, AccessControl {
     }
 
     // 0.0005 eth for 1 token
-    uint tokenPrice = 500000000000000 wei; 
+    uint tokenPrice = 500000000000000; 
 
     
     function sellBack(uint amount) public payable{
         amount  = amount * 10 ** decimals();
         approve(address(this), amount);
-        uint256 allowance = token.allowance(msg.sender, address(this));
+        // uint256 allowance = token.allowance(msg.sender, address(this));
         require(amount > 0, "You need to sell at least some tokens");
-        require(allowance >= amount, "Check the token allowance");
+        // require(allowance >= amount, "Check the token allowance");
+        require(address(this).balance > (amount * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
 	    token.transferFrom(msg.sender, address(this), amount);
-	    payable(msg.sender).transfer(amount * tokenPrice);
+	    payable(msg.sender).transfer((amount * tokenPrice) / 10 ** decimals());
     }
+
 }
