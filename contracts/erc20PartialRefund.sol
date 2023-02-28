@@ -14,14 +14,16 @@ contract partialRefund is ERC20, Ownable, AccessControl {
     IERC20 public token;
 
     // Token Sale
-    function minting(address minter) public payable{
+    function minting() public payable{
         require(totalSupply() <= MAX_TOKENS, "TotalSupply exceeds limit");
-        require(msg.value == 1 ether, "Not enouth ether");
+        require(msg.value >= 1 ether, "Not enouth ether");
         payable(address(this)).transfer(1 ether);
-        _mint(minter, 1000* 10 ** decimals());
+        _mint(msg.sender, 1000* 10 ** decimals());
     }
     
-    receive() external payable {}
+    receive() external payable {
+        minting();
+    }
 
     function withdraw() public onlyOwner{
         require(address(this).balance > 0, "Contract has no ether");
@@ -39,8 +41,7 @@ contract partialRefund is ERC20, Ownable, AccessControl {
         require(amount > 0, "You need to sell at least some tokens");
         // require(allowance >= amount, "Check the token allowance");
         require(address(this).balance > (amount * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
-	    token.transferFrom(msg.sender, address(this), amount);
-	    payable(msg.sender).transfer((amount * tokenPrice) / 10 ** decimals());
+	token.transferFrom(msg.sender, address(this), amount);
+	payable(msg.sender).transfer((amount * tokenPrice) / 10 ** decimals());
     }
-
 }
