@@ -75,13 +75,16 @@ contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
             require(balanceOf(msg.sender, POTION) > amount, "You don't have potion");
             _burn(account, id, amount);
         } else {
-            if(id == GOLD || id == THORS_HAMMER) {
+            if(id == GOLD) {
+                require(balanceOf(msg.sender, GOLD) > 1, "You don't have gold");
                 _burn(account, GOLD, 1);
                 erc1155.mint(account, SILVER, 2);
             } else if (id == SILVER){
+                require(balanceOf(msg.sender, SILVER) > 1, "You don't have silver");
                 _burn(account, SILVER, 1);
                 erc1155.mint(account, THORS_HAMMER, 1);
             } else {
+                require(balanceOf(msg.sender, THORS_HAMMER) > 1, "You don't have gold");
                 _burn(account, THORS_HAMMER, 1);
                 erc1155.mint(account, SILVER, 2);
                 erc1155.mint(account, GOLD, 2);
