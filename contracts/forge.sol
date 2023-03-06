@@ -7,84 +7,84 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "./erc1155.sol";
 
-contract forge is ERC1155Holder, ERC1155Burnable {
-    // erc1155 public token;
-    ERC1155 token = ERC1155(0xd9145CCE52D386f254917e481eB44e9943F39138);
-    // uint256 lastMintAt;
+contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
+    uint256 public constant GOLD = 0;
+    uint256 public constant SILVER = 1;
+    uint256 public constant THORS_HAMMER = 2;
+    uint256 public constant SWORD = 3;
+    uint256 public constant SHIELD = 4;
+    uint256 public constant LOKIS_HORNS = 5;
+    uint256 public constant POTION = 6;
+
     mapping(address => uint256) timing;
-    // constructor(address erc1155A){
-    //     token = erc1155(erc1155A);
-    //     ERC1155 token = ERC1155(erc1155A);
-    // }
+
 
     function forging(address to, uint256 id, uint256 amount) public{
-        if (id == token.GOLD || id == token.SILVER || id == token.THORS_HAMMER){
+        if (id == GOLD || id == SILVER || id == THORS_HAMMER){
             uint lastMintAt = timing[msg.sender];
             if (lastMintAt == 0) {
                 timing[msg.sender] = block.timestamp;
             }
             uint secondsPassed = block.timestamp - lastMintAt;
             require(secondsPassed > 60, "No enought time past");
-            token.mint(to, id, amount, "");
+            erc1155.mint(to, id, amount);
             timing[msg.sender] = block.timestamp;
 
-        } else if (id == token.SWORD){
-            require(balanceOf(msg.sender, token.GOLD) > 0, "You don't have gold");
-            require(balanceOf(msg.sender, token.SILVER) > 0, "You don't have silver");
+        } else if (id == SWORD){
+            require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
+            require(balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             // _burnBatch(to, [GOLD, SILVER], burningPrice);
-            _burn(to, token.GOLD, 1);
-            _burn(to, token.SILVER,1);
-            token.mint(to, token.SWORD, amount, '');
+            _burn(to, GOLD, 1);
+            _burn(to, SILVER,1);
+            erc1155.mint(to, SWORD, amount);
 
-        } else if (id == token.SHIELD){
-            require(balanceOf(msg.sender, token.THORS_HAMMER) > 0, "You don't have gold");
-            require(balanceOf(msg.sender, token.SILVER) > 0, "You don't have silver");
+        } else if (id == SHIELD){
+            require(balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have gold");
+            require(balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             uint[] memory arr = new uint[](2);
             uint[] memory price = new uint[](2);
-            arr[0] = token.GOLD;
-            arr[1] = token.SILVER;
+            arr[0] = GOLD;
+            arr[1] = SILVER;
             price[0] = 1;
             price[1] = 1;
             _burnBatch(to, arr, price);
-            // _burn(to, THORS_HAMMER, 1);
-            // _burn(to, SILVER,1);
-            token.mint(to, token.SHIELD, amount, '');
+            erc1155.mint(to, SHIELD, amount);
 
-        } else if (id == token.LOKIS_HORNS){
-            require(balanceOf(msg.sender, token.GOLD) > 0, "You don't have gold");
-            require(balanceOf(msg.sender, token.THORS_HAMMER) > 0, "You don't have silver");
-            _burn(to, token.GOLD, 1);
-            _burn(to, token.THORS_HAMMER,1);
-            token.mint(to, token.LOKIS_HORNS, amount, '');
+        } else if (id == LOKIS_HORNS){
+            require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
+            require(balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
+            _burn(to, GOLD, 1);
+            _burn(to, THORS_HAMMER,1);
+            erc1155.mint(to, LOKIS_HORNS, amount);
 
-        } else if (id == token.POTION){
-            require(balanceOf(msg.sender, token.GOLD) > 0, "You don't have gold");
-            require(balanceOf(msg.sender, token.SILVER) > 0, "You don't have silver");
-            require(balanceOf(msg.sender, token.THORS_HAMMER) > 0, "You don't have silver");
-            _burn(to, token.GOLD, 1);
-            _burn(to, token.SILVER,1);
-            _burn(to, token.THORS_HAMMER,1);
-            token.mint(to, token.POTION, amount, '');
+        } else if (id == POTION){
+            require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
+            require(balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
+            require(balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
+            _burn(to, GOLD, 1);
+            _burn(to, SILVER,1);
+            _burn(to, THORS_HAMMER,1);
+            erc1155.mint(to, POTION, amount);
         }
     }
 
     function trade(address account, uint256 id, uint256 amount) public{
-        if(id == token.SHIELD || id == token.LOKIS_HORNS || id == token.POTION){
-            require(balanceOf(msg.sender, token.SHIELD) > amount, "You don't have shields");
-            require(balanceOf(msg.sender, token.LOKIS_HORNS) > amount, "You don't have loki's horns");
-            require(balanceOf(msg.sender, token.POTION) > amount, "You don't have potion");
+        if(id == SHIELD || id == LOKIS_HORNS || id == POTION){
+            require(balanceOf(msg.sender, SHIELD) > amount, "You don't have shields");
+            require(balanceOf(msg.sender, LOKIS_HORNS) > amount, "You don't have loki's horns");
+            require(balanceOf(msg.sender, POTION) > amount, "You don't have potion");
             _burn(account, id, amount);
         } else {
-            if(id == token.GOLD || id == token.THORS_HAMMER) {
-                _burn(account, token.GOLD, 1);
-                token.mint(account, token.SILVER, 2);
-            } else if (id == token.SILVER){
-                _burn(account, token.SILVER, 1);
-                token.mint(account, token.THORS_HAMMER, 1);
+            if(id == GOLD || id == THORS_HAMMER) {
+                _burn(account, GOLD, 1);
+                erc1155.mint(account, SILVER, 2);
+            } else if (id == SILVER){
+                _burn(account, SILVER, 1);
+                erc1155.mint(account, THORS_HAMMER, 1);
             } else {
-                _burn(account, token.THORS_HAMMER, 1);
-                token.mint(account, token.SILVER, 2);
-                token.mint(account, token.GOLD, 2);
+                _burn(account, THORS_HAMMER, 1);
+                erc1155.mint(account, SILVER, 2);
+                erc1155.mint(account, GOLD, 2);
             }
         }
     }
