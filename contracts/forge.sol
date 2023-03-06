@@ -17,19 +17,12 @@ contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
     uint256 public constant POTION = 6;
 
     uint forgeTime = block.timestamp;
-    mapping(address => uint256) timing;
 
 
     function forging(address to, uint256 id, uint256 amount) public{
         if (id == GOLD || id == SILVER || id == THORS_HAMMER){
-            // uint lastMintAt = timing[msg.sender];
-            // if (forgeTime == 0) {
-            //     forgeTime = block.timestamp;
-            // }
-            // uint secondsPassed = block.timestamp - lastMintAt;
             require(block.timestamp > (forgeTime + 60 seconds), "No enought time past");
             erc1155.mint(to, id, amount);
-            // timing[msg.sender] = block.timestamp;
 
         } else if (id == SWORD){
             require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
