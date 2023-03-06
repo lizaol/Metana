@@ -16,26 +16,27 @@ contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
     uint256 public constant LOKIS_HORNS = 5;
     uint256 public constant POTION = 6;
 
+    uint forgeTime = block.timestamp;
     mapping(address => uint256) timing;
 
 
     function forging(address to, uint256 id, uint256 amount) public{
         if (id == GOLD || id == SILVER || id == THORS_HAMMER){
-            uint lastMintAt = timing[msg.sender];
-            if (lastMintAt == 0) {
-                timing[msg.sender] = block.timestamp;
-            }
-            uint secondsPassed = block.timestamp - lastMintAt;
-            require(secondsPassed > 60, "No enought time past");
+            // uint lastMintAt = timing[msg.sender];
+            // if (forgeTime == 0) {
+            //     forgeTime = block.timestamp;
+            // }
+            // uint secondsPassed = block.timestamp - lastMintAt;
+            require(block.timestamp > (forgeTime + 60 seconds), "No enought time past");
             erc1155.mint(to, id, amount);
-            timing[msg.sender] = block.timestamp;
+            // timing[msg.sender] = block.timestamp;
 
         } else if (id == SWORD){
             require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
             require(balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             // _burnBatch(to, [GOLD, SILVER], burningPrice);
-            _burn(to, GOLD, 1);
-            _burn(to, SILVER,1);
+            erc1155.burning(to, GOLD, 1);
+            erc1155.burning(to, SILVER,1);
             erc1155.mint(to, SWORD, amount);
 
         } else if (id == SHIELD){
@@ -47,23 +48,23 @@ contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
             arr[1] = SILVER;
             price[0] = 1;
             price[1] = 1;
-            _burnBatch(to, arr, price);
+            erc1155.burningBatch(to, arr, price);
             erc1155.mint(to, SHIELD, amount);
 
         } else if (id == LOKIS_HORNS){
             require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
             require(balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
-            _burn(to, GOLD, 1);
-            _burn(to, THORS_HAMMER,1);
+            erc1155.burning(to, GOLD, 1);
+            erc1155.burning(to, THORS_HAMMER,1);
             erc1155.mint(to, LOKIS_HORNS, amount);
 
         } else if (id == POTION){
             require(balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
             require(balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             require(balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
-            _burn(to, GOLD, 1);
-            _burn(to, SILVER,1);
-            _burn(to, THORS_HAMMER,1);
+            erc1155.burning(to, GOLD, 1);
+            erc1155.burning(to, SILVER,1);
+            erc1155.burning(to, THORS_HAMMER,1);
             erc1155.mint(to, POTION, amount);
         }
     }
@@ -73,19 +74,19 @@ contract forge is ERC1155Holder, ERC1155Burnable, erc1155 {
             require(balanceOf(msg.sender, SHIELD) > amount, "You don't have shields");
             require(balanceOf(msg.sender, LOKIS_HORNS) > amount, "You don't have loki's horns");
             require(balanceOf(msg.sender, POTION) > amount, "You don't have potion");
-            _burn(account, id, amount);
+            erc1155.burning(account, id, amount);
         } else {
             if(id == GOLD) {
                 require(balanceOf(msg.sender, GOLD) > 1, "You don't have gold");
-                _burn(account, GOLD, 1);
+                erc1155.burning(account, GOLD, 1);
                 erc1155.mint(account, SILVER, 2);
             } else if (id == SILVER){
                 require(balanceOf(msg.sender, SILVER) > 1, "You don't have silver");
-                _burn(account, SILVER, 1);
+                erc1155.burning(account, SILVER, 1);
                 erc1155.mint(account, THORS_HAMMER, 1);
             } else {
                 require(balanceOf(msg.sender, THORS_HAMMER) > 1, "You don't have gold");
-                _burn(account, THORS_HAMMER, 1);
+                erc1155.burning(account, THORS_HAMMER, 1);
                 erc1155.mint(account, SILVER, 2);
                 erc1155.mint(account, GOLD, 2);
             }
