@@ -8,44 +8,47 @@ import "./stakingErc721.sol";
 
 contract staking is Ownable, IERC721Receiver{
     struct Stake {
-        uint24 tokenId;
-        uint48 timestamp;
+        uint tokenId;
+        uint timestamp;
         address owner;
     }
-    stakingErc20 token;
-    stakingErc721 nft;
+    ERC20 token;
+    ERC721 nft;
     // uint public totalStaked;
     mapping(uint256 => Stake) public vault; 
-
-    // constructor(stakingErc20 _token, stakingErc721 _nft){
-    //   token = _token;
-    //   nft = _nft;
-    // }
+    uint timeDeployed;
+    constructor(ERC20 _token, ERC721 _nft){
+      token = _token;
+      nft = _nft;
+      timeDeployed = block.timestamp;
+    }
 
     function stake(uint256 tokenId) public {
         // uint256 tokenId = _tokenIdCounter.current();
         // totalStaked += 1;
         require(nft.ownerOf(tokenId) == msg.sender, "not your token");
         require(vault[tokenId].tokenId == 0, "already staked");
-
+        
         nft.transferFrom(msg.sender, address(this), tokenId);
 
         vault[tokenId] = Stake({
             owner: msg.sender,
-            tokenId: uint24(tokenId),
-            timestamp: uint48(block.timestamp)
+            tokenId: uint(tokenId),
+            timestamp: uint(block.timestamp)
         });
     }
 
     function unstake(address account, uint256 tokenId) public {
         // totalStaked -= 1;
-
         Stake memory staked = vault[tokenId];
         require(staked.owner == msg.sender, "not an owner");
-
         delete vault[tokenId];
         nft.transferFrom(address(this), account, tokenId);
   }
+
+    function withdraw() public payble{
+        require()
+    }
 
 
 
