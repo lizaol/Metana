@@ -2,9 +2,12 @@
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-import "./stakingErc20.sol";
-import "./stakingErc721.sol";
+// import "./stakingErc20.sol";
+// import "./stakingErc721.sol";
 
 contract staking is Ownable, IERC721Receiver{
     struct Stake {
@@ -12,12 +15,15 @@ contract staking is Ownable, IERC721Receiver{
         uint timestamp;
         address owner;
     }
-    ERC20 token;
-    ERC721 nft;
+
     // uint public totalStaked;
-    mapping(uint256 => Stake) public vault; 
+    stakingErc20 token;
+    stakingErc721 nft;
+    
+    mapping(uint256 => Stake) public vault;     // tokenId => Stake
+
     uint timeDeployed;
-    constructor(ERC20 _token, ERC721 _nft){
+    constructor(stakingErc20 _token, stakingErc721 _nft){
       token = _token;
       nft = _nft;
       timeDeployed = block.timestamp;
@@ -46,14 +52,42 @@ contract staking is Ownable, IERC721Receiver{
         nft.transferFrom(address(this), account, tokenId);
   }
 
-    function withdraw() public payble{
-        require()
+    function withdraw(address to, uint tokenId) public{
+        Stake memory staked = vault[tokenId];
+        require(staked.owner == msg.sender, "not an owner");
+        uint stakedAt = staked.timestamp;
+        require((block.timestamp + 30 seconds) > stakedAt, "A day hasn't passed");
+        token.mint(to, 10 *10 **18);
     }
-
-
 
   function onERC721Received(address, address from, uint256, bytes calldata) external pure override returns (bytes4) {
       require(from == address(0x0), "Cannot send nfts to Vault directly");
       return IERC721Receiver.onERC721Received.selector;
+    }
+}
+
+
+
+
+contract stakingErc20 is ERC20, Ownable {
+  constructor() ERC20("Liza", "LIZ") { 
+      _mint(msg.sender, 100 *10 **decimals());
+  }
+
+  function mint(address to, uint256 amount) external {
+    _mint(to, amount);
+  }
+}
+
+contract stakingErc721 is ERC721, Ownable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
+
+    constructor() ERC721("Liza", "LIZ") {}
+
+    function safeMint(address to) public onlyOwner {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
     }
 }
