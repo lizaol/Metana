@@ -6,18 +6,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract partialRefund is ERC20, Ownable, AccessControl {
-    bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
-
-
+    // bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
     constructor() ERC20("Gold", "GLD") {}
     uint private MAX_TOKENS = 1000000 * 10 ** decimals();
-    IERC20 public token;
+    // ERC20 public token;              wrong
 
     // Token Sale
     function minting() public payable{
         require(totalSupply() <= MAX_TOKENS, "TotalSupply exceeds limit");
         require(msg.value >= 1 ether, "Not enouth ether");
-        payable(address(this)).transfer(1 ether);
+        // payable(address(this)).transfer(1 ether);
         _mint(msg.sender, 1000* 10 ** decimals());
     }
     
@@ -30,18 +28,17 @@ contract partialRefund is ERC20, Ownable, AccessControl {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    // 0.0005 eth for 1 token
-    uint tokenPrice = 500000000000000; 
+    // 0.005 eth for 1 token
+    uint tokenPrice = 5 * 10 **14; 
 
     
-    function sellBack(uint amount) public payable{
-        amount  = amount * 10 ** decimals();
-        approve(address(this), amount);
-        // uint256 allowance = token.allowance(msg.sender, address(this));
-        require(amount > 0, "You need to sell at least some tokens");
-        // require(allowance >= amount, "Check the token allowance");
-        require(address(this).balance > (amount * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
-	token.transferFrom(msg.sender, address(this), amount);
-	payable(msg.sender).transfer((amount * tokenPrice) / 10 ** decimals());
+    function sellBack(uint amount) public {
+        
+        uint amountS  = amount * 10 ** decimals();
+        require(amountS > 0, "You need to sell at least some tokens");
+        require(address(this).balance > (amountS * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
+        // no need to approve when useing _transfer
+	    _transfer(msg.sender, address(this), amountS);
+	    payable(msg.sender).transfer((amountS * tokenPrice) / 10 ** decimals());
     }
 }
