@@ -9,8 +9,9 @@
     "ethers": "^5.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "web-vitals": "^1.1.2"
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2",
+    "@truffle/hdwallet-provider": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
@@ -40,5 +41,6 @@
       "ethers": "^5.5.4",
       "hardhat": "^2.12.7"
     }
+
   }
 }
