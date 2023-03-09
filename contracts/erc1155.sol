@@ -12,5 +12,13 @@ contract erc1155 is ERC1155, Ownable, ERC1155Burnable {
     function mint(address to, uint256 id, uint256 amount) public{
         _mint(to, id, amount, '');
     }
+
+    function burning(address account, uint256 id, uint256 amount) public{
+        _burn(account, id, amount);
+    }
+
+    function burningBatch(address account, uint256[] memory ids, uint256[] memory amounts) public{
+        _burnBatch(account, ids, amounts);
+    }
 }
 
