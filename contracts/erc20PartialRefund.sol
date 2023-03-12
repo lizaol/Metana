@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract partialRefund is ERC20, Ownable, AccessControl {
+contract erc20partialRefund is ERC20, Ownable, AccessControl {
     // bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
     constructor() ERC20("Gold", "GLD") {}
     uint private MAX_TOKENS = 1000000 * 10 ** decimals();
@@ -15,7 +15,6 @@ contract partialRefund is ERC20, Ownable, AccessControl {
     function minting() public payable{
         require(totalSupply() <= MAX_TOKENS, "TotalSupply exceeds limit");
         require(msg.value >= 1 ether, "Not enouth ether");
-        // payable(address(this)).transfer(1 ether);
         _mint(msg.sender, 1000* 10 ** decimals());
     }
 
