@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract erc20GodMode is ERC20, Ownable {
+contract erc20Sanctions is ERC20, Ownable {
 
     mapping(address => bool) private blacklist;
 

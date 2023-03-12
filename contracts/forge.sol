@@ -41,7 +41,7 @@ contract forge is ERC1155Holder {
     }
 
 
-    // Don't know how to implement in React
+    // ?????
     // function balanceOfBatch() public view returns(uint[] memory){
     //     address[] memory adr = new address[](2);
     //     uint[] memory ids = new uint[](2);
@@ -141,4 +141,3 @@ contract forge is ERC1155Holder {
     }
 
 }
-

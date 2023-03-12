@@ -18,7 +18,7 @@ contract partialRefund is ERC20, Ownable, AccessControl {
         // payable(address(this)).transfer(1 ether);
         _mint(msg.sender, 1000* 10 ** decimals());
     }
-    
+
     receive() external payable {
         minting();
     }
@@ -29,11 +29,11 @@ contract partialRefund is ERC20, Ownable, AccessControl {
     }
 
     // 0.005 eth for 1 token
-    uint tokenPrice = 5 * 10 **14; 
+    uint tokenPrice = 5 * 10 **14;
 
-    
+
     function sellBack(uint amount) public {
-        
+
         uint amountS  = amount * 10 ** decimals();
         require(amountS > 0, "You need to sell at least some tokens");
         require(address(this).balance > (amountS * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");

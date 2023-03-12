@@ -17,13 +17,13 @@ contract staking is Ownable, IERC721Receiver{
     }
 
     // uint public totalStaked;
-    stakingErc20 token;
-    stakingErc721 nft;
+    stakingE20 token;
+    stakingE721 nft;
     
     mapping(uint256 => Stake) public vault;     // tokenId => Stake
 
     uint timeDeployed;
-    constructor(stakingErc20 _token, stakingErc721 _nft){
+    constructor(stakingE20 _token, stakingE721 _nft){
       token = _token;
       nft = _nft;
       timeDeployed = block.timestamp;
@@ -69,7 +69,7 @@ contract staking is Ownable, IERC721Receiver{
 
 
 
-contract stakingErc20 is ERC20, Ownable {
+contract stakingE20 is ERC20, Ownable {
   constructor() ERC20("Liza", "LIZ") { 
       _mint(msg.sender, 100 *10 **decimals());
   }
@@ -79,7 +79,7 @@ contract stakingErc20 is ERC20, Ownable {
   }
 }
 
-contract stakingErc721 is ERC721, Ownable {
+contract stakingE721 is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
