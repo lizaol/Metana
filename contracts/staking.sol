@@ -6,58 +6,57 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-// import "./stakingErc20.sol";
-// import "./stakingErc721.sol";
 
 contract staking is Ownable, IERC721Receiver{
-    struct Stake {
+  struct Stake {
         uint tokenId;
         uint timestamp;
         address owner;
+        bool stakedBool;
     }
 
-    // uint public totalStaked;
-    stakingE20 token;
-    stakingE721 nft;
+  stakingErc20 token;
+  stakingErc721 nft;
     
-    mapping(uint256 => Stake) public vault;     // tokenId => Stake
+  mapping(uint256 => Stake) public vault;     // tokenId => Stake
 
-    uint timeDeployed;
-    constructor(stakingE20 _token, stakingE721 _nft){
+  uint timeDeployed;
+  constructor(stakingErc20 _token, stakingErc721 _nft){
       token = _token;
       nft = _nft;
       timeDeployed = block.timestamp;
     }
 
-    function stake(uint256 tokenId) public {
-        // uint256 tokenId = _tokenIdCounter.current();
-        // totalStaked += 1;
+  function stake(uint256 tokenId) public {
         require(nft.ownerOf(tokenId) == msg.sender, "not your token");
-        require(vault[tokenId].tokenId == 0, "already staked");
-        
+        require(vault[tokenId].stakedBool == false, "already staked");
         nft.transferFrom(msg.sender, address(this), tokenId);
-
         vault[tokenId] = Stake({
             owner: msg.sender,
             tokenId: uint(tokenId),
-            timestamp: uint(block.timestamp)
+            timestamp: uint(block.timestamp),
+            stakedBool: true
         });
     }
 
-    function unstake(address account, uint256 tokenId) public {
-        // totalStaked -= 1;
+  function unstake(address account, uint256 tokenId) public {
         Stake memory staked = vault[tokenId];
         require(staked.owner == msg.sender, "not an owner");
         delete vault[tokenId];
         nft.transferFrom(address(this), account, tokenId);
   }
 
-    function withdraw(address to, uint tokenId) public{
+  // tokens per second 
+  uint private tokenSec = uint256(10 * 10 ** 18) / 24 / 60 / 60;
+
+  function withdraw(address to, uint tokenId) public{
         Stake memory staked = vault[tokenId];
         require(staked.owner == msg.sender, "not an owner");
         uint stakedAt = staked.timestamp;
-        require((block.timestamp + 30 seconds) > stakedAt, "A day hasn't passed");
-        token.mint(to, 10 *10 **18);
+        uint timeDiff = block.timestamp - stakedAt;
+        require(timeDiff >= 24 hours, "A day hasn't passed");
+        token.mint(to, tokenSec * timeDiff);
+        staked.timestamp == 0;
     }
 
   function onERC721Received(address, address from, uint256, bytes calldata) external pure override returns (bytes4) {
@@ -68,18 +67,17 @@ contract staking is Ownable, IERC721Receiver{
 
 
 
-
-contract stakingE20 is ERC20, Ownable {
+contract stakingErc20 is ERC20, Ownable {
   constructor() ERC20("Liza", "LIZ") { 
       _mint(msg.sender, 100 *10 **decimals());
   }
 
-  function mint(address to, uint256 amount) external {
+  function mint(address to, uint256 amount) external onlyOwner{
     _mint(to, amount);
   }
 }
 
-contract stakingE721 is ERC721, Ownable {
+contract stakingErc721 is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
