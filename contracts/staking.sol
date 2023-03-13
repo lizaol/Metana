@@ -42,7 +42,7 @@ contract staking is Ownable, IERC721Receiver{
   function unstake(address account, uint256 tokenId) public {
         Stake memory staked = vault[tokenId];
         require(staked.owner == msg.sender, "not an owner");
-        delete vault[tokenId];
+        delete staked;
         nft.transferFrom(address(this), account, tokenId);
   }
 

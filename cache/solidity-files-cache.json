@@ -1012,8 +1012,8 @@
       ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/staking.sol": {
-      "lastModificationDate": 1678639783540,
-      "contentHash": "3ee12dab486d41bc7c2c4e5a480c94e9",
+      "lastModificationDate": 1678661931899,
+      "contentHash": "bde8b66871944386b70d5c87e4a92f0f",
       "sourceName": "contracts/staking.sol",
       "solcConfig": {
         "version": "0.8.18",
@@ -1050,8 +1050,8 @@
       ],
       "artifacts": [
         "staking",
-        "stakingE20",
-        "stakingE721"
+        "stakingErc20",
+        "stakingErc721"
       ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/stakingErc721.sol": {
@@ -1544,6 +1544,42 @@
       ],
       "artifacts": [
         "erc20partialRefund"
+      ]
+    },
+    "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/ethernaut3.sol": {
+      "lastModificationDate": 1678660790921,
+      "contentHash": "b903854431b5e3dc02124881832aed53",
+      "sourceName": "contracts/ethernaut3.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "CoinFlip",
+        "hCoinFlip"
       ]
     }
   }
