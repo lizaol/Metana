@@ -6,10 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract erc20partialRefund is ERC20, Ownable, AccessControl {
-    // bytes32 public constant USER_ROLE = keccak256("USER_ROLE");
     constructor() ERC20("Gold", "GLD") {}
     uint private MAX_TOKENS = 1000000 * 10 ** decimals();
-    // ERC20 public token;              wrong
 
     // Token Sale
     function minting() public payable{
@@ -30,9 +28,7 @@ contract erc20partialRefund is ERC20, Ownable, AccessControl {
     // 0.005 eth for 1 token
     uint tokenPrice = 5 * 10 **14;
 
-
     function sellBack(uint amount) public {
-
         uint amountS  = amount * 10 ** decimals();
         require(amountS > 0, "You need to sell at least some tokens");
         require(address(this).balance > (amountS * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
