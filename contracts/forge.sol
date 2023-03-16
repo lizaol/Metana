@@ -28,30 +28,6 @@ contract forge is ERC1155Holder {
     uint forgeTime = block.timestamp;
     mapping(address => uint256) timing;
 
-    function name() public pure returns(string memory){
-        return "forge";
-    }
-
-    function balanceOfGold() public view returns(uint){
-        return (token.balanceOf(msg.sender, GOLD));
-    }
-
-    function balanceOfSilver() public view returns(uint){
-        return (token.balanceOf(msg.sender, SILVER));
-    }
-
-
-    // ?????
-    // function balanceOfBatch() public view returns(uint[] memory){
-    //     address[] memory adr = new address[](2);
-    //     uint[] memory ids = new uint[](2);
-    //     adr[0] = msg.sender;
-    //     adr[1] = msg.sender;
-    //     ids[0] = GOLD;
-    //     ids[1] = SILVER;
-    //     return token.balanceOfBatch(adr, ids);
-    // }
-
     function forging(address to, uint256 id, uint256 amount) public{
         if (id == GOLD || id == SILVER || id == THORS_HAMMER){
             require(block.timestamp > (forgeTime + 60 seconds), "No enought time past");
