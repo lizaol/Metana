@@ -3,23 +3,48 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./erc20liz.sol";
-import "./erc721liz.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-
-contract nft_erc20 is erc721liz{
-    // uint private minAmount = 10* 10 ** decimals();       doesnt work
+contract nft_erc20{
     uint private minAmount = 10* 10 ** 18;
+    erc20liz token; 
+    erc721liz nft;
 
-    function getContractBalance(IERC20 token) public view returns(uint){
-        return token.balanceOf(address(this));
-   }
+    constructor(erc20liz _token, erc721liz _nft){
+      token = _token;
+      nft = _nft;
+    }
 
-   function minting(IERC20 token) public {
+   function minting() public {
         require(token.balanceOf(address(this)) >= minAmount, "SC doesnt have enought tokens");
-        erc721liz.safeMint(msg.sender);
-        // erc721liz.safeMint(address(this));           doesnt work
+        nft.safeMint(msg.sender);
    }
+
+    function getContractBalance() public view returns(uint){
+        return token.balanceOf(address(this));
+  }
+}
+
+
+contract erc721liz is ERC721 {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
+    constructor() ERC721("Liza", "LIZ") {}
+
+    function safeMint(address to) public {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+    }
+}
+
+contract erc20liz is ERC20, Ownable {
+    constructor() ERC20("Liza", "LIZ") {
+        _mint(msg.sender, 300 * 10 ** decimals());
+    }
+
+    function transferToken(address to, uint amount) public payable onlyOwner{
+        _transfer(msg.sender, to,  amount* 10 ** decimals());
+    }
 }
