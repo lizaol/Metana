@@ -84,7 +84,7 @@ const Wallet = () => {
                   {n: "Sword", id: array[3]},
                   {n: "Shield", id: array[4]},
                   {n: "Loki's Horns", id: array[5]},
-                  {n: "Potion", id: array[6]} ]
+                  {n: "Potion", id: array[6],} ]
     console.log(arr)
 
     setBalance(arr)
@@ -117,7 +117,7 @@ return (
         <div>
           <h3>Batch Balance:
           {balance?.map(function(d, id){
-             return (<li key={id}>{d.n} {d.id}</li>)
+             return (<li key={id}>{d.n} {d.id} </li>)
            })}
 
           </h3>
