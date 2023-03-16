@@ -30,7 +30,7 @@ contract forge is ERC1155Holder {
 
     function forging(address to, uint256 id, uint256 amount) public{
         if (id == GOLD || id == SILVER || id == THORS_HAMMER){
-            require(block.timestamp > (forgeTime + 60 seconds), "No enought time past");
+            require(block.timestamp > (forgeTime + 60 seconds), "Not enough time passed");
             token.mint(to, id, amount);
 
         } else if (id == SWORD){
@@ -41,7 +41,7 @@ contract forge is ERC1155Holder {
             token.mint(to, SWORD, amount);
 
         } else if (id == SHIELD){
-            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have gold");
+            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
             require(token.balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             uint[] memory arr = new uint[](2);
             uint[] memory price = new uint[](2);
@@ -54,7 +54,7 @@ contract forge is ERC1155Holder {
 
         } else if (id == LOKIS_HORNS){
             require(token.balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
-            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
+            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
             token.burning(to, GOLD, 1);
             token.burning(to, THORS_HAMMER,1);
             token.mint(to, LOKIS_HORNS, amount);
@@ -62,7 +62,7 @@ contract forge is ERC1155Holder {
         } else if (id == POTION){
             require(token.balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
             require(token.balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
-            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have silver");
+            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
             token.burning(to, GOLD, 1);
             token.burning(to, SILVER,1);
             token.burning(to, THORS_HAMMER,1);
@@ -86,7 +86,7 @@ contract forge is ERC1155Holder {
                 token.burning(account, SILVER, 1);
                 token.mint(account, THORS_HAMMER, 1);
             } else {
-                require(token.balanceOf(msg.sender, THORS_HAMMER) > 1, "You don't have gold");
+                require(token.balanceOf(msg.sender, THORS_HAMMER) > 1, "You don't have hammer");
                 token.burning(account, THORS_HAMMER, 1);
                 token.mint(account, SILVER, 2);
                 token.mint(account, GOLD, 2);
