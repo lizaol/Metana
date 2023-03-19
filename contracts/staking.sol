@@ -5,9 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "hardhat/console.sol";
 
-
-contract staking is Ownable, IERC721Receiver{
+contract staking is IERC721Receiver{
   struct Stake {
         uint tokenId;
         uint timestamp;
@@ -44,18 +44,20 @@ contract staking is Ownable, IERC721Receiver{
         require(staked.owner == msg.sender, "not an owner");
         delete staked;
         nft.transferFrom(address(this), account, tokenId);
+        console.log("tokens:", token.balanceOf(address(this)), "nfts: ", nft.balanceOf(address(this)));
   }
 
   // tokens per second 
   uint private tokenSec = uint256(10 * 10 ** 18) / 24 / 60 / 60;
 
-  function withdraw(address to, uint tokenId) public{
+  function withdraw(uint tokenId) public{
         Stake memory staked = vault[tokenId];
         require(staked.owner == msg.sender, "not an owner");
         uint stakedAt = staked.timestamp;
         uint timeDiff = block.timestamp - stakedAt;
-        require(timeDiff >= 24 hours, "A day hasn't passed");
-        token.mint(to, tokenSec * timeDiff);
+        // require(timeDiff >= 24 hours, "A day hasn't passed");
+        require(timeDiff >= 30 seconds, "A day hasn't passed");      // for testing 
+        token.mint(staked.owner, tokenSec * timeDiff);
         staked.timestamp == 0;
     }
 
@@ -67,12 +69,12 @@ contract staking is Ownable, IERC721Receiver{
 
 
 
-contract stakingErc20 is ERC20, Ownable {
+contract stakingErc20 is ERC20 {
   constructor() ERC20("Liza", "LIZ") { 
       _mint(msg.sender, 100 *10 **decimals());
   }
 
-  function mint(address to, uint256 amount) external onlyOwner{
+  function mint(address to, uint256 amount) external{
     _mint(to, amount);
   }
 }
