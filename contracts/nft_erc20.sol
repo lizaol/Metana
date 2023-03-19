@@ -17,7 +17,8 @@ contract nft_erc20{
     }
 
    function minting() public {
-        require(token.balanceOf(address(this)) >= minAmount, "SC doesnt have enought tokens");
+        require(token.balanceOf(msg.sender) >= minAmount, "User doesnt have enought tokens");
+        token.transferFrom(msg.sender, address(this), 10* 10 ** 18);
         nft.safeMint(msg.sender);
    }
 
@@ -42,9 +43,5 @@ contract erc721liz is ERC721 {
 contract erc20liz is ERC20, Ownable {
     constructor() ERC20("Liza", "LIZ") {
         _mint(msg.sender, 300 * 10 ** decimals());
-    }
-
-    function transferToken(address to, uint amount) public payable onlyOwner{
-        _transfer(msg.sender, to,  amount* 10 ** decimals());
     }
 }
