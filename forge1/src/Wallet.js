@@ -14,20 +14,20 @@ const ethers = require("ethers")
 
 const Wallet = () => {
 // ethrscan addresses
-  const erc1155ContractAdress = '0x53b5f9E33e76A58d3D0f497FB7933909fF66b73C'
+  const erc1155ContractAdress = '0xeb1053369B8660a27D96Cabe54e72395aAa0385c'
   const forgeContractAddress = '0x788183c4eae40A37e175290023450b05Ef05e99F'
 
-  const [tokenName, setTokenName] = useState("Token")
-  // setTokenName("new")    example
+  const [tokenName, setTokenName] = useState("ERC1155 Token")
   const [connButtonText, setConnButtonText] = useState("Connect Wallet")
   const [errorMessage, setErrorMessage] = useState(null)
   const [defaultAccount, setDefaulAccount] = useState(null)
-  // const [balanceS, setBalanceS] = useState(null)
   const [balanceE, setBalanceE] = useState(null)       //balanceOf
   const [balance, setBalance] = useState()      //balanceOfBatch
   const [provider, setProvider] = useState(null)
   const [signer, setSigner] = useState(null)
   const [contract, setContract] = useState(erc1155ContractAdress)
+  const [data, setData] = useState(null)
+  const [mintName, setMint] = useState(false)
 
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask){
@@ -86,7 +86,6 @@ const Wallet = () => {
                   {n: "Loki's Horns", id: array[5]},
                   {n: "Potion", id: array[6],} ]
     console.log(arr)
-
     setBalance(arr)
   }
 
@@ -101,10 +100,29 @@ const Wallet = () => {
 		});
 	};
 
-  // const updateTokenName = async () => {
-  //   setTokenName(await contract.name())
-  // }
+  const getData = (val) => {
+    setData(val.target.value)
+  }
+  const mintHandler = async () => {
+    // arr = {}
+    if (data == 1){
+      contract.mint(defaultAccount, 0, 1).send();
 
+      // setBalance(await contract.balanceOf(defaultAccount, 0))
+    } else if (data == 2){
+      contract.mint(defaultAccount, 1, 1).send();
+    } else if (data == 3){
+      contract.mint(defaultAccount, 2, 1).send();
+    } else if (data == 4){
+      contract.mint(defaultAccount, 3, 1).send();
+    } else if (data == 5){
+      contract.mint(defaultAccount, 4, 1).send();
+    } else if (data == 6){
+      contract.mint(defaultAccount, 5, 1).send();
+    } else if (data == 7){
+      contract.mint(defaultAccount, 6, 1).send();
+    }
+  }
 
 return (
     <div>
@@ -115,18 +133,23 @@ return (
           <h3>Address: {defaultAccount}</h3>
         </div>
         <div>
+          <h3>Eth Balance: {balanceE} </h3>
+        </div>
+        <div>
           <h3>Batch Balance:
+            <ol>
           {balance?.map(function(d, id){
              return (<li key={id}>{d.n} {d.id} </li>)
            })}
-
+            </ol>
           </h3>
-        </div>
-        <div>
-          <h3>Eth Balance: {balanceE} </h3>
         </div>
         {errorMessage}
         </div>
+        <div>
+         <input type="text" onChange={getData}/>
+        </div>
+        <button className={styles.button5} onClick={mintHandler}> Mint</button>
     </div>
   );
 }
