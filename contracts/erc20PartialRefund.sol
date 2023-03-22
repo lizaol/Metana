@@ -19,7 +19,7 @@ contract erc20partialRefund is ERC20, Ownable, AccessControl {
     receive() external payable {
         minting();
     }
-
+ 
     function withdraw() public onlyOwner{
         require(address(this).balance > 0, "Contract has no ether");
         payable(msg.sender).transfer(address(this).balance);
@@ -31,9 +31,10 @@ contract erc20partialRefund is ERC20, Ownable, AccessControl {
     function sellBack(uint amount) public {
         uint amountS  = amount * 10 ** decimals();
         require(amountS > 0, "You need to sell at least some tokens");
-        require(address(this).balance > (amountS * tokenPrice) / 10 ** decimals(), "SC doesn't hold enought ether");
+        require(address(this).balance > (amountS * tokenPrice) / 10 ** decimals(), "SC doesn't hold enough ether");
         // no need to approve when useing _transfer
 	    _transfer(msg.sender, address(this), amountS);
 	    payable(msg.sender).transfer((amountS * tokenPrice) / 10 ** decimals());
     }
 }
+ 

@@ -22,12 +22,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/19</span>
+        <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/16</span>
+        <span class='fraction'>0/14</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/25</span>
+        <span class='fraction'>0/26</span>
       </div>
     </div>
   </div>
@@ -134,7 +134,9 @@
 89
 90
 91
-92</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+92
+93
+94</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,6 +182,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,6 +193,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -232,9 +236,9 @@ import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "hardhat/console.sol";
 &nbsp;
-&nbsp;
-contract staking is Ownable, IERC721Receiver{
+contract staking is IERC721Receiver{
   struct Stake {
         uint tokenId;
         uint timestamp;
@@ -271,18 +275,20 @@ contract staking is Ownable, IERC721Receiver{
 <span class="cstat-no" title="statement not covered" >        require(staked.owner == msg.sender, "not an owner")</span>;
         delete staked;
 <span class="cstat-no" title="statement not covered" >        nft.transferFrom(address(this), account, tokenId)</span>;
+<span class="cstat-no" title="statement not covered" >        console.log("tokens:", token.balanceOf(address(this)), "nfts: ", nft.balanceOf(address(this)))</span>;
   }
 &nbsp;
   // tokens per second 
   uint private tokenSec = uint256(10 * 10 ** 18) / 24 / 60 / 60;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  function withdraw(address to, uint tokenId) public{</span>
+<span class="fstat-no" title="function not covered" >  function withdraw(uint tokenId) public{</span>
 <span class="cstat-no" title="statement not covered" >        Stake memory staked = vault[tokenId];</span>
 <span class="cstat-no" title="statement not covered" >        require(staked.owner == msg.sender, "not an owner")</span>;
 <span class="cstat-no" title="statement not covered" >        uint stakedAt = staked.timestamp;</span>
 <span class="cstat-no" title="statement not covered" >        uint timeDiff = block.timestamp - stakedAt;</span>
-<span class="cstat-no" title="statement not covered" >        require(timeDiff &gt;= 24 hours, "A day hasn't passed")</span>;
-<span class="cstat-no" title="statement not covered" >        token.mint(to, tokenSec * timeDiff)</span>;
+        // require(timeDiff &gt;= 24 hours, "A day hasn't passed");
+<span class="cstat-no" title="statement not covered" >        require(timeDiff &gt;= 30 seconds, "A day hasn't passed")</span>;      // for testing 
+<span class="cstat-no" title="statement not covered" >        token.mint(staked.owner, tokenSec * timeDiff)</span>;
         staked.timestamp == 0;
     }
 &nbsp;
@@ -294,12 +300,12 @@ contract staking is Ownable, IERC721Receiver{
 &nbsp;
 &nbsp;
 &nbsp;
-contract stakingErc20 is ERC20, Ownable {
+contract stakingErc20 is ERC20 {
 <span class="fstat-no" title="function not covered" >  constructor() ERC20("Liza", "LIZ") { </span>
 <span class="cstat-no" title="statement not covered" >      _mint(msg.sender, 100 *10 **decimals())</span>;
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  function mint(address to, uint256 amount) external onlyOwner{</span>
+<span class="fstat-no" title="function not covered" >  function mint(address to, uint256 amount) external{</span>
 <span class="cstat-no" title="statement not covered" >    _mint(to, amount)</span>;
   }
 }
@@ -322,7 +328,7 @@ contract stakingErc721 is ERC721, Ownable {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Mar 18 2023 18:51:09 GMT-0400 (Eastern Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 22 2023 11:56:24 GMT-0400 (Eastern Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
