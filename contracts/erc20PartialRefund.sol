@@ -12,7 +12,7 @@ contract erc20partialRefund is ERC20, Ownable, AccessControl {
     // Token Sale
     function minting() public payable{
         require(totalSupply() <= MAX_TOKENS, "TotalSupply exceeds limit");
-        require(msg.value >= 1 ether, "Not enouth ether");
+        require(msg.value >= 1 ether, "Not enough ether");
         _mint(msg.sender, 1000* 10 ** decimals());
     }
 
@@ -36,5 +36,5 @@ contract erc20partialRefund is ERC20, Ownable, AccessControl {
 	    _transfer(msg.sender, address(this), amountS);
 	    payable(msg.sender).transfer((amountS * tokenPrice) / 10 ** decimals());
     }
-}
+} 
  
