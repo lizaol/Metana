@@ -11,12 +11,9 @@
 //   }
 // };
 
-
 // import "@nomicfoundation/hardhat-toolbox";
 require("@nomicfoundation/hardhat-toolbox");
 // require("@nomicfoundation/hardhat-etherscan");
-
-
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -24,9 +21,9 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: "https://eth-mainnet.g.alchemy.com/v2/wcuHcqsV9201cLJoo_jvNo0_Ap8wjztA"
-      }
-    }
+        url: "https://eth-mainnet.g.alchemy.com/v2/wcuHcqsV9201cLJoo_jvNo0_Ap8wjztA",
+      },
+    },
   },
   // etherscan: {
   //   apiKey: {

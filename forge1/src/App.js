@@ -1,12 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import Wallet1 from './Wallet.js'
+import logo from "./logo.svg";
+import "./App.css";
+import Wallet1 from "./Wallet.js";
 
 function App() {
   return (
     <div className="App">
-      <Wallet1/>
-
+      <Wallet1 />
     </div>
   );
 }

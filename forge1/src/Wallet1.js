@@ -1,4 +1,3 @@
-
 // //// might be usefull
 //
 // //    connection nft collection
@@ -6,14 +5,12 @@
 // ///     https://github.com/Vbhaskar125/nftGallery/blob/main/NftGallery/Frontend/src/App.js
 //
 
-
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 // import erc20abi from "./ERC20abi.json";
 // import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
-import forge_abi from './Contracts/forge_abi.json'
-
+import forge_abi from "./Contracts/forge_abi.json";
 
 const Wallet1 = () => {
   const [txs, setTxs] = useState([]);
@@ -23,11 +20,11 @@ const Wallet1 = () => {
     address: "-",
     tokenName: "-",
     tokenSymbol: "-",
-    totalSupply: "-"
+    totalSupply: "-",
   });
   const [balanceInfo, setBalanceInfo] = useState({
     address: "-",
-    balance: "-"
+    balance: "-",
   });
 
   useEffect(() => {
@@ -48,8 +45,8 @@ const Wallet1 = () => {
             txHash: event.transactionHash,
             from,
             to,
-            amount: String(amount)
-          }
+            amount: String(amount),
+          },
         ]);
       });
       setContractListened(erc20);
@@ -75,21 +72,25 @@ const Wallet1 = () => {
       address: data.get("addr"),
       tokenName,
       tokenSymbol,
-      totalSupply
+      totalSupply,
     });
   };
 
   const getMyBalance = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
-    const erc20 = new ethers.Contract(contractInfo.address, forge_abi, provider);
+    const erc20 = new ethers.Contract(
+      contractInfo.address,
+      forge_abi,
+      provider
+    );
     const signer = await provider.getSigner();
     const signerAddress = await signer.getAddress();
     const balance = await erc20.balanceOf(signerAddress);
 
     setBalanceInfo({
       address: signerAddress,
-      balance: String(balance)
+      balance: String(balance),
     });
   };
 
@@ -181,8 +182,8 @@ const Wallet1 = () => {
             </div>
           </div>
         </form>
-        </div>
-        </div>
+      </div>
+    </div>
     //     <div className="m-4 credit-card w-full lg:w-3/4 sm:w-auto shadow-lg mx-auto rounded-xl bg-white">
     //       <div className="mt-4 p-4">
     //         <h1 className="text-xl font-semibold text-gray-700 text-center">
@@ -232,6 +233,6 @@ const Wallet1 = () => {
     //   </div>
     // </div>
   );
-}
+};
 
 export default Wallet1;

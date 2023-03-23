@@ -1,13 +1,9 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from "react";
 
-import styles from './Wallet.module.css'
-const ethers = require("ethers")
+import styles from "./Wallet.module.css";
+const ethers = require("ethers");
 
 const Interactions = () => {
-
-  return (
-    <div>
-    </div>
-  );
-}
+  return <div></div>;
+};
 export default Interactions;
