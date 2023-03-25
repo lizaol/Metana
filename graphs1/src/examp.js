@@ -11,7 +11,7 @@ function Block() {
   const [transferVolumes, setTransferVolumes] = useState([]);
 
   useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/772d58498d2e44f48fd34722115728dc");
     const usdt = new ethers.Contract(usdtAddress, usdt_abi, provider);
 
     async function fetchTransferVolumes() {

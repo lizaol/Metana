@@ -15,7 +15,6 @@ const ethers = require("ethers");
 const Wallet = () => {
   // ethrscan addresses
   const erc1155ContractAdress = "0xeb1053369B8660a27D96Cabe54e72395aAa0385c";
-  const forgeContractAddress = "0x788183c4eae40A37e175290023450b05Ef05e99F";
 
   const [tokenName, setTokenName] = useState("ERC1155 Token");
   const [connButtonText, setConnButtonText] = useState("Connect Wallet");
