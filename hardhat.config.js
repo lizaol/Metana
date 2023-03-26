@@ -18,6 +18,11 @@ require("@nomicfoundation/hardhat-toolbox");
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
+  coverage: {
+    skipFiles: [
+      "./contracts/forge.sol:onERC1155Received",
+    ],
+  },
   networks: {
     hardhat: {
       forking: {
@@ -31,6 +36,12 @@ module.exports = {
   //   }
   // }
 };
+
+
+
+
+
+
 
 task("accounts", "Prints the list of accs", async () => {
   const accounts = await ethers.getSigners();

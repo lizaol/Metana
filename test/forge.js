@@ -24,7 +24,7 @@ describe("Testing partial refund contract", () => {
     forgeFactory = await ethers.getContractFactory("forge");
     forge = await forgeFactory.deploy(erc1155Deployed.address);
 
-    await forge.deployed();
+    // await forge.deployed();
   });
 
   it("timer check", async () => {
@@ -32,22 +32,30 @@ describe("Testing partial refund contract", () => {
       forge.forging(accounts[0].address, GOLD, 10)
     ).to.be.revertedWith("Not enough time passed");
   });
-  it("should fail if ID > 6"),
-    async () => {
-      const tx = await forge.forging(accounts[0].address, 7, 10);
-      await tx.wait();
-      expect(await erc1155Deployed.balanceOf(accounts[0].address, 7)).to.equal(
-        0
-      );
-    };
-  it("should fail forging Sword if gold,silver=0"),
-    async () => {
-      const result = await forge.forging(accounts[0].address, SWORD, 1);
-      await result.wait();
-      expect(await erc1155Deployed.balanceOf(accounts[0].address, 7)).to.equal(
-        0
-      );
-    };
+
+  // fail trade FN (gold, silver, hammer)
+  it("fails to trade 1 Gold", async function () {
+    await expect(forge.trade(accounts[0].address, GOLD, 1)).to.be.revertedWith("You don't have gold");
+  });
+  it("fails to trade 1 Silver", async function () {
+    await expect(forge.trade(accounts[0].address, SILVER, 1)).to.be.revertedWith("You don't have silver");
+  });
+  it("fails to trade 1 Hammer", async function () {
+    await expect(forge.trade(accounts[0].address, THORS_HAMMER, 1)).to.be.revertedWith("You don't have hammer");
+  });
+
+  // Forging FN
+  it("should fail forging Sword if gold=0", async function() {
+    await expect(forge.forging(accounts[0].address, SWORD, 1)).to.be.revertedWith("You don't have gold");
+  });
+
+  it("should fail forging Loki's Horns if gold=0", async function() {
+    await expect(forge.forging(accounts[0].address, LOKIS_HORNS, 1)).to.be.revertedWith("You don't have gold");
+  });
+
+  it("should fail forging Potion if gold=0", async function() {
+    await expect(forge.forging(accounts[0].address, POTION, 1)).to.be.revertedWith("You don't have gold");
+  });
 
   it("forge 10 Gold", async function () {
     // increase the blockchain time by 61 seconds
@@ -64,6 +72,26 @@ describe("Testing partial refund contract", () => {
     );
   });
 
+  it("should fail forging Potion if silver=0", async function() {
+    await expect(forge.forging(accounts[0].address, POTION, 1)).to.be.revertedWith("You don't have silver");
+  });
+
+  it("should fail forging Loki's Horns if hammer=0", async function() {
+    await expect(forge.forging(accounts[0].address, LOKIS_HORNS, 1)).to.be.revertedWith("You don't have hammer");
+  });
+
+  it("should fail forging Sword if silver=0", async function() {
+    await expect(forge.forging(accounts[0].address, SWORD, 1)).to.be.revertedWith("You don't have silver");
+    console.log(
+      "silver balance : ",
+      await erc1155Deployed.balanceOf(accounts[0].address, SILVER)
+    );
+  });
+
+  it("should fail forging Shield if silver=0", async function() {
+    await expect(forge.forging(accounts[0].address, SHIELD, 1)).to.be.revertedWith("You don't have silver");
+  });
+
   it("forge 11 Silver", async function () {
     const result = await forge.forging(accounts[0].address, SILVER, 11);
     await result.wait();
@@ -74,6 +102,14 @@ describe("Testing partial refund contract", () => {
       "silver balance : ",
       await erc1155Deployed.balanceOf(accounts[0].address, SILVER)
     );
+  });
+
+  it("should fail forging Shield if hammer=0", async function() {
+    await expect(forge.forging(accounts[0].address, SHIELD, 1)).to.be.revertedWith("You don't have hammer");
+  });
+
+  it("should fail forging Potion if hammer=0", async function() {
+    await expect(forge.forging(accounts[0].address, POTION, 1)).to.be.revertedWith("You don't have hammer");
   });
 
   it("forge 12 Thor's Hammer", async function () {
@@ -148,60 +184,59 @@ describe("Testing partial refund contract", () => {
     );
   });
 
-  it("forge 15 Potion", async function () {
-    const result = await forge.forging(accounts[0].address, POTION, 15);
+  it("forge 10 Potion", async () => {
+    const result = await forge.forging(accounts[0].address, POTION, 10);
     await result.wait();
-    expect(
+    await expect(await erc1155Deployed.balanceOf(accounts[0].address, POTION)).to.equal(10);
+    console.log(
+      "user balance potion: ",
       await erc1155Deployed.balanceOf(accounts[0].address, POTION)
-    ).to.equal(15);
-    console.log(
-      "potion balance : ",
-      await erc1155Deployed.balanceOf(accounts[0].address, POTION)
-    );
-    console.log(
-      "user balance gold: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, GOLD)
-    );
-    console.log(
-      "user balance silver: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, SILVER)
-    );
-    console.log(
-      "user balance hammer: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, THORS_HAMMER)
     );
   });
 
+
+
+
+
+
+
   // trade function
-  it("trade 1 Sheild", async function () {
+  it("trade all Sheilds", async function () {
+    const shields = await erc1155Deployed.balanceOf(accounts[0].address, SHIELD)
     console.log(
       "shield balance before: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, SHIELD)
+      shields
     );
-    const result = await forge.trade(accounts[0].address, SHIELD, 1);
+    const result = await forge.trade(accounts[0].address, SHIELD, shields -1);
     await result.wait();
     console.log(
       "shield balance after: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, SHIELD)
+      shields
     );
   });
 
-  it("trade 1 Loki's Horns", async function () {
-    const result = await forge.trade(accounts[0].address, LOKIS_HORNS, 1);
-    await result.wait();
-    console.log(
-      "horns balance : ",
-      await erc1155Deployed.balanceOf(accounts[0].address, LOKIS_HORNS)
-    );
+  it("fails to trade 1 Sheild", async function () {
+    await expect(forge.trade(accounts[0].address, SHIELD, 1)).to.be.revertedWith("You don't have shields");
   });
 
-  it("trade 1 Potion", async function () {
-    const result = await forge.trade(accounts[0].address, LOKIS_HORNS, 1);
+  it("trade all Loki's Horns", async function () {
+    const horns = await erc1155Deployed.balanceOf(accounts[0].address, LOKIS_HORNS)
+    const result = await forge.trade(accounts[0].address, LOKIS_HORNS, horns -1);
     await result.wait();
-    console.log(
-      "potion balance : ",
-      await erc1155Deployed.balanceOf(accounts[0].address, LOKIS_HORNS)
-    );
+  });
+
+  it("fails to trade 1 Loki's Horn", async function () {
+    await expect(forge.trade(accounts[0].address, LOKIS_HORNS, 1)).to.be.revertedWith("You don't have loki's horns");
+  });
+
+  it("trade all Potion", async function () {
+    const potions = await erc1155Deployed.balanceOf(accounts[0].address, POTION)
+    const result = await forge.trade(accounts[0].address, POTION, potions -1);
+    await result.wait();
+  });
+
+  it("fails to trade 1 Potion", async function () {
+    await expect(forge.trade(accounts[0].address, POTION, 1)).to.be.revertedWith("You don't have potion");
   });
 
   it("trade Gold (burn gold-mint silver)", async function () {
@@ -222,32 +257,21 @@ describe("Testing partial refund contract", () => {
   });
 
   it("trade Silver (burn silver-mint hammer)", async function () {
-    console.log(
-      "silver balance before: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, SILVER)
-    );
     const result = await forge.trade(accounts[0].address, SILVER, 1);
     await result.wait();
-    console.log(
-      "silver balance after: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, SILVER)
-    );
-    console.log(
-      "hammer balance after: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, THORS_HAMMER)
-    );
   });
 
   it("trade Thor's Hammer (burn hammer-mint silver and gold)", async function () {
-    console.log(
-      "hammer balance before: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, THORS_HAMMER)
-    );
-    const result = await forge.forging(accounts[0].address, THORS_HAMMER, 1);
+    const result = await forge.trade(accounts[0].address, THORS_HAMMER, 1);
     await result.wait();
-    console.log(
-      "hammer balance after: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, THORS_HAMMER)
-    );
   });
+
+
+
+  it("should support ERC1155 interface", async function() {
+    const interfaceId = "0x4e2312e0";
+    expect(await forge.supportsInterface(interfaceId)).to.be.true;
+  });
+
+
 });

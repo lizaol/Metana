@@ -41,8 +41,8 @@ contract forge is ERC1155Holder {
             token.mint(to, SWORD, amount);
 
         } else if (id == SHIELD){
-            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
             require(token.balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
+            require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
             uint[] memory arr = new uint[](2);
             uint[] memory price = new uint[](2);
             arr[0] = GOLD;
@@ -71,28 +71,32 @@ contract forge is ERC1155Holder {
     }
 
     function trade(address account, uint256 id, uint256 amount) public{
-        if(id == SHIELD || id == LOKIS_HORNS || id == POTION){
+        if(id == SHIELD){
             require(token.balanceOf(msg.sender, SHIELD) > amount, "You don't have shields");
+            token.burning(account, id, amount);
+        } else if (id == LOKIS_HORNS){
             require(token.balanceOf(msg.sender, LOKIS_HORNS) > amount, "You don't have loki's horns");
+            token.burning(account, id, amount);
+        } else if (id == POTION){
             require(token.balanceOf(msg.sender, POTION) > amount, "You don't have potion");
             token.burning(account, id, amount);
-        } else {
-            if(id == GOLD) {
+        } else if(id == GOLD) {
                 require(token.balanceOf(msg.sender, GOLD) > 1, "You don't have gold");
                 token.burning(account, GOLD, 1);
                 token.mint(account, SILVER, 2);
-            } else if (id == SILVER){
+        } else if (id == SILVER){
                 require(token.balanceOf(msg.sender, SILVER) > 1, "You don't have silver");
                 token.burning(account, SILVER, 1);
                 token.mint(account, THORS_HAMMER, 1);
-            } else {
+        } else {
                 require(token.balanceOf(msg.sender, THORS_HAMMER) > 1, "You don't have hammer");
                 token.burning(account, THORS_HAMMER, 1);
                 token.mint(account, SILVER, 2);
                 token.mint(account, GOLD, 2);
             }
         }
-    }
+    
+
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155Receiver) returns (bool) {
         return super.supportsInterface(interfaceId);
