@@ -1,5 +1,7 @@
 node_modules
 .env
+.prettierrc.json
+.solhint.json
 coverage
 coverage.json
 typechain
