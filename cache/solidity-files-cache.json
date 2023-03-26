@@ -21,8 +21,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -31,8 +36,12 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["APL"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "APL"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
       "lastModificationDate": 1678540354235,
@@ -54,14 +63,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["Counters"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Counters"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
       "lastModificationDate": 1678540354305,
@@ -83,14 +101,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../utils/Context.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["Ownable"]
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
       "lastModificationDate": 1678540354267,
@@ -112,14 +141,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../ERC721.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC721URIStorage"]
+      "imports": [
+        "../ERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721URIStorage"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/Context.sol": {
       "lastModificationDate": 1678540354235,
@@ -141,14 +181,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["Context"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
       "lastModificationDate": 1678540354262,
@@ -170,8 +219,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -184,8 +238,12 @@
         "../../utils/Strings.sol",
         "../../utils/introspection/ERC165.sol"
       ],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC721"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
       "lastModificationDate": 1678540354293,
@@ -207,14 +265,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC721Receiver"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Receiver"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/Address.sol": {
       "lastModificationDate": 1678540354232,
@@ -236,14 +303,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.1"],
-      "artifacts": ["Address"]
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "Address"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
       "lastModificationDate": 1678540354289,
@@ -265,14 +341,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../../utils/introspection/IERC165.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC721"]
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
       "lastModificationDate": 1678540354317,
@@ -294,14 +381,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["Strings"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Strings"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
       "lastModificationDate": 1678540354292,
@@ -323,14 +419,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../IERC721.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC721Metadata"]
+      "imports": [
+        "../IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Metadata"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
       "lastModificationDate": 1678540354247,
@@ -352,14 +459,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["./IERC165.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC165"]
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC165"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
       "lastModificationDate": 1678540354282,
@@ -381,14 +499,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC165"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/utils/ERC1155Receiver.sol": {
       "lastModificationDate": 1678540354246,
@@ -410,8 +537,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -419,8 +551,12 @@
         "../IERC1155Receiver.sol",
         "../../../utils/introspection/ERC165.sol"
       ],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC1155Receiver"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155Receiver"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol": {
       "lastModificationDate": 1678540354280,
@@ -442,14 +578,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../../utils/introspection/IERC165.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC1155Receiver"]
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155Receiver"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155.sol": {
       "lastModificationDate": 1678540354279,
@@ -471,14 +618,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../../utils/introspection/IERC165.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC1155"]
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol": {
       "lastModificationDate": 1678540354280,
@@ -500,14 +658,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../IERC1155.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC1155MetadataURI"]
+      "imports": [
+        "../IERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155MetadataURI"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol": {
       "lastModificationDate": 1678540354243,
@@ -529,8 +698,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -542,8 +716,12 @@
         "../../utils/Context.sol",
         "../../utils/introspection/ERC165.sol"
       ],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC1155"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol": {
       "lastModificationDate": 1678540354243,
@@ -565,14 +743,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../ERC1155.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC1155Burnable"]
+      "imports": [
+        "../ERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155Burnable"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/forge.sol": {
       "lastModificationDate": 1678996257800,
@@ -594,8 +783,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -606,8 +800,12 @@
         "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol",
         "./erc1155.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["forge"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "forge"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc1155.sol": {
       "lastModificationDate": 1678987532703,
@@ -629,8 +827,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -639,8 +842,12 @@
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["erc1155"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "erc1155"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol": {
       "lastModificationDate": 1678540354245,
@@ -662,14 +869,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["./ERC1155Receiver.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC1155Holder"]
+      "imports": [
+        "./ERC1155Receiver.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155Holder"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol": {
       "lastModificationDate": 1678540354251,
@@ -691,14 +909,26 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../ERC20.sol", "../../../utils/Context.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC20Burnable"]
+      "imports": [
+        "../ERC20.sol",
+        "../../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20Burnable"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
       "lastModificationDate": 1678540354250,
@@ -720,8 +950,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -730,8 +965,12 @@
         "./extensions/IERC20Metadata.sol",
         "../../utils/Context.sol"
       ],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["ERC20"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
       "lastModificationDate": 1678540354284,
@@ -753,14 +992,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC20"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
       "lastModificationDate": 1678540354285,
@@ -782,14 +1030,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["../IERC20.sol"],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IERC20Metadata"]
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/stakingErc20.sol": {
       "lastModificationDate": 1678639288384,
@@ -811,8 +1070,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -821,8 +1085,12 @@
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["staking20"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "staking20"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/staking.sol": {
       "lastModificationDate": 1679244197301,
@@ -844,8 +1112,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -857,8 +1130,14 @@
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "hardhat/console.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["staking", "stakingErc20", "stakingErc721"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "staking",
+        "stakingErc20",
+        "stakingErc721"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/stakingErc721.sol": {
       "lastModificationDate": 1678639923174,
@@ -880,8 +1159,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -890,8 +1174,12 @@
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/utils/Counters.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["stakingErc721"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "stakingErc721"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/nft_erc20.sol": {
       "lastModificationDate": 1679241611319,
@@ -913,8 +1201,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -924,8 +1217,14 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol"
       ],
-      "versionPragmas": ["^0.8.9"],
-      "artifacts": ["erc20liz", "erc721liz", "nft_erc20"]
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "erc20liz",
+        "erc721liz",
+        "nft_erc20"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc20liz.sol": {
       "lastModificationDate": 1677717553573,
@@ -947,8 +1246,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -956,8 +1260,12 @@
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
-      "versionPragmas": ["^0.8.9"],
-      "artifacts": ["erc20liz"]
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "erc20liz"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc721liz.sol": {
       "lastModificationDate": 1677717573654,
@@ -979,8 +1287,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -989,8 +1302,12 @@
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/utils/Counters.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["erc721liz"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "erc721liz"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc20TokenSale.sol": {
       "lastModificationDate": 1677717065277,
@@ -1012,8 +1329,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -1021,8 +1343,12 @@
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["tokenSale"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "tokenSale"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc20Sanctions.sol": {
       "lastModificationDate": 1678639237106,
@@ -1044,8 +1370,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -1053,8 +1384,12 @@
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["erc20Sanctions"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "erc20Sanctions"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/access/AccessControl.sol": {
       "lastModificationDate": 1678540354231,
@@ -1076,8 +1411,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -1087,8 +1427,12 @@
         "../utils/Strings.sol",
         "../utils/introspection/ERC165.sol"
       ],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["AccessControl"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AccessControl"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/@openzeppelin/contracts/access/IAccessControl.sol": {
       "lastModificationDate": 1678540354275,
@@ -1110,14 +1454,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["IAccessControl"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IAccessControl"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc20GodMode.sol": {
       "lastModificationDate": 1677717501036,
@@ -1139,8 +1492,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -1148,8 +1506,12 @@
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["erc20GodMode"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "erc20GodMode"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/Migrations.sol": {
       "lastModificationDate": 1676858157159,
@@ -1171,14 +1533,23 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": [">=0.4.22 <0.9.0"],
-      "artifacts": ["Migrations"]
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "Migrations"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/Lock.sol": {
       "lastModificationDate": 1678640739924,
@@ -1200,14 +1571,25 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
-      "imports": ["hardhat/console.sol"],
-      "versionPragmas": ["^0.8.9"],
-      "artifacts": ["Lock"]
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.9"
+      ],
+      "artifacts": [
+        "Lock"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/node_modules/hardhat/console.sol": {
       "lastModificationDate": 1678543606853,
@@ -1229,18 +1611,27 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": [">= 0.4.22 <0.9.0"],
-      "artifacts": ["console"]
+      "versionPragmas": [
+        ">= 0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/erc20PartialRefund.sol": {
-      "lastModificationDate": 1679519400472,
-      "contentHash": "8f1b59e8aeaad76bc8daf85c58ae4365",
+      "lastModificationDate": 1679846429089,
+      "contentHash": "c807c284aa2685b02541b814df2e346b",
       "sourceName": "contracts/erc20PartialRefund.sol",
       "solcConfig": {
         "version": "0.8.18",
@@ -1258,8 +1649,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -1268,8 +1664,12 @@
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/access/AccessControl.sol"
       ],
-      "versionPragmas": ["^0.8.17"],
-      "artifacts": ["erc20partialRefund"]
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "erc20partialRefund"
+      ]
     },
     "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/ethernaut3.sol": {
       "lastModificationDate": 1678660790921,
@@ -1291,14 +1691,64 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": ["ast"]
+              "": [
+                "ast"
+              ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
       "imports": [],
-      "versionPragmas": ["^0.8.0"],
-      "artifacts": ["CoinFlip", "hCoinFlip"]
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "CoinFlip",
+        "hCoinFlip"
+      ]
+    },
+    "/Users/elizavetaolenberg/Desktop/metana/Metana/contracts/mock_pr.sol": {
+      "lastModificationDate": 1679846443048,
+      "contentHash": "8e88878873662b5c5a74c9a1f2b38e68",
+      "sourceName": "contracts/mock_pr.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": false
+          }
+        }
+      },
+      "imports": [
+        "./erc20PartialRefund.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "mock_pr"
+      ]
     }
   }
 }
