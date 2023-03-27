@@ -45,6 +45,10 @@ describe("Testing partial refund contract", () => {
   });
 
   // Forging FN
+  it("should fail forging if id>6", async function() {
+    await expect(forge.forging(accounts[0].address, 7, 1)).to.be.revertedWith("Item doesn't exist")
+  });
+
   it("should fail forging Sword if gold=0", async function() {
     await expect(forge.forging(accounts[0].address, SWORD, 1)).to.be.revertedWith("You don't have gold");
   });
@@ -170,18 +174,6 @@ describe("Testing partial refund contract", () => {
     expect(
       await erc1155Deployed.balanceOf(accounts[0].address, LOKIS_HORNS)
     ).to.equal(15);
-    console.log(
-      "horns balance : ",
-      await erc1155Deployed.balanceOf(accounts[0].address, LOKIS_HORNS)
-    );
-    console.log(
-      "user balance gold: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, GOLD)
-    );
-    console.log(
-      "user balance hammer: ",
-      await erc1155Deployed.balanceOf(accounts[0].address, THORS_HAMMER)
-    );
   });
 
   it("forge 10 Potion", async () => {

@@ -13,7 +13,7 @@ contract staking is IERC721Receiver{
         uint timestamp;
         address owner;
         bool stakedBool;
-    }
+    } 
 
   stakingErc20 token;
   stakingErc721 nft;
@@ -29,7 +29,7 @@ contract staking is IERC721Receiver{
 
   function stake(uint256 tokenId) public {
         require(nft.ownerOf(tokenId) == msg.sender, "not your token");
-        require(vault[tokenId].stakedBool == false, "already staked");
+        require(!vault[tokenId].stakedBool, "already staked");
         nft.transferFrom(msg.sender, address(this), tokenId);
         vault[tokenId] = Stake({
             owner: msg.sender,
@@ -41,7 +41,7 @@ contract staking is IERC721Receiver{
 
   function unstake(address account, uint256 tokenId) public {
         Stake memory staked = vault[tokenId];
-        require(staked.owner == msg.sender, "not an owner");
+        require(staked.owner != address(0) && staked.owner == msg.sender, "not an owner");
         delete staked;
         nft.transferFrom(address(this), account, tokenId);
         console.log("tokens:", token.balanceOf(address(this)), "nfts: ", nft.balanceOf(address(this)));
@@ -52,13 +52,15 @@ contract staking is IERC721Receiver{
 
   function withdraw(uint tokenId) public{
         Stake memory staked = vault[tokenId];
-        require(staked.owner == msg.sender, "not an owner");
+        require(staked.owner != address(0) && staked.owner == msg.sender, "not an owner");
         uint stakedAt = staked.timestamp;
         uint timeDiff = block.timestamp - stakedAt;
         // require(timeDiff >= 24 hours, "A day hasn't passed");
         require(timeDiff >= 30 seconds, "A day hasn't passed");      // for testing 
         token.mint(staked.owner, tokenSec * timeDiff);
-        staked.timestamp == 0;
+        if (staked.timestamp <= 0) {    // slither suggestion
+          staked.timestamp = 0;
+        }
     }
 
   function onERC721Received(address, address from, uint256, bytes calldata) external pure override returns (bytes4) {

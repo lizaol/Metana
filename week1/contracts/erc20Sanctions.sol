@@ -7,12 +7,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract erc20Sanctions is ERC20, Ownable {
 
-    mapping(address => bool) private blacklist;
+    mapping(address => bool) public blacklist;
 
     constructor() ERC20("Gold", "GLD") {
         _mint(msg.sender, 100 * 10 ** decimals());
     }
-     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override(ERC20) {
+    function addToBlacklist(address account) public onlyOwner {
+        blacklist[account] = true;
+    }
+
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override(ERC20) {
         super._beforeTokenTransfer(from, to, tokenId);
 
         require(!blacklist[to], "Can't send tokens to the contract address");

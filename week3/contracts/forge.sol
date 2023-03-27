@@ -8,7 +8,6 @@ import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
-
 import "./erc1155.sol";
 
 contract forge is ERC1155Holder {
@@ -59,7 +58,7 @@ contract forge is ERC1155Holder {
             token.burning(to, THORS_HAMMER,1);
             token.mint(to, LOKIS_HORNS, amount);
 
-        } else if (id == POTION){
+        } else if(id == POTION){
             require(token.balanceOf(msg.sender, GOLD) > 0, "You don't have gold");
             require(token.balanceOf(msg.sender, SILVER) > 0, "You don't have silver");
             require(token.balanceOf(msg.sender, THORS_HAMMER) > 0, "You don't have hammer");
@@ -67,6 +66,8 @@ contract forge is ERC1155Holder {
             token.burning(to, SILVER,1);
             token.burning(to, THORS_HAMMER,1);
             token.mint(to, POTION, amount);
+        } else {
+          require(id < 6, "Item doesn't exist");
         }
     }
 
@@ -95,7 +96,7 @@ contract forge is ERC1155Holder {
                 token.mint(account, GOLD, 2);
             }
         }
-    
+
 
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155Receiver) returns (bool) {

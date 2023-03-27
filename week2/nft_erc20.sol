@@ -18,7 +18,8 @@ contract nft_erc20{
 
    function minting() public {
         require(token.balanceOf(msg.sender) >= minAmount, "User doesnt have enought tokens");
-        token.transferFrom(msg.sender, address(this), 10* 10 ** 18);
+        bool success = token.transferFrom(msg.sender, address(this), 10 * 10 ** 18);
+        require(success, "Token transfer failed");
         nft.safeMint(msg.sender);
    }
 
