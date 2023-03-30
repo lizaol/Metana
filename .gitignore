@@ -1,5 +1,6 @@
 node_modules
 .env
+.env.local
 .prettierrc.json
 .solhint.json
 coverage
@@ -11,4 +12,3 @@ migrations
 # Hardhat files
 cache
 artifacts
-
