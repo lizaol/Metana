@@ -25,8 +25,8 @@ describe("Testing partial refund contract", () => {
   });
 
   it("should mint 1000 tokens to the sender", async function () {
-    console.log("pr balance", await pr.balanceOf(accounts[0].address))
-    console.log("mock balance", await mock.balanceOf(accounts[0].address))
+    console.log("pr balance", await pr.balanceOf(accounts[0].address));
+    console.log("mock balance", await mock.balanceOf(accounts[0].address));
     await pr.minting({ value: "1000000000000000000" });
     expect(await pr.balanceOf(accounts[0].address)).to.equal(
       ethers.utils.parseUnits("1000", 18)
@@ -43,7 +43,7 @@ describe("Testing partial refund contract", () => {
   });
 
   it("fails if total supply > MAX_TOKENS", async () => {
-    await mock.setMax(10)
+    await mock.setMax(10);
 
     await expect(
       mock.minting({ value: "100000000000000000000" })
@@ -66,11 +66,7 @@ describe("Testing partial refund contract", () => {
   //   await expect(pr.minting({ value: "1000000000000000000" })).to.be.revertedWith("TotalSupply exceeds limit");
   // });
 
-
-
-
   it("allows to withdraw", async () => {
-
     const balanceSCbefore = await ethers.provider.getBalance(pr.address);
     const balanceUserBefore = await ethers.provider.getBalance(
       accounts[0].address
@@ -87,10 +83,8 @@ describe("Testing partial refund contract", () => {
   });
 
   it("should fail if contract has no ether", async () => {
-    console.log("sc balance", await ethers.provider.getBalance(pr.address))
-    await expect(
-      (pr.withdraw())
-    ).to.be.revertedWith("Contract has no ether");
+    console.log("sc balance", await ethers.provider.getBalance(pr.address));
+    await expect(pr.withdraw()).to.be.revertedWith("Contract has no ether");
   });
 
   it("should fail if amount =0", async () => {

@@ -2,7 +2,7 @@
 // import styles from "./Wallet.module.css";
 // import { Network, Alchemy } from 'alchemy-sdk';
 // const usdt_abi = require("./abi/usdt_abi.json");
-import usdt_abi from "./Contracts/usdt_abi.json"
+import usdt_abi from "./Contracts/usdt_abi.json";
 // const settings = {
 //     apiKey: "jR6J6WYDuD2dVROsRNoH5V5QI9WIDmNm",
 //     network: Network.ETH_GOERLI,
@@ -13,34 +13,29 @@ ethers = require("ethers");
 // require("dotenv").config();
 
 // async function block(){
-//   const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
+//   const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 //   const contract = new ethers.Contract(usdt_abi, usdtAddress);
 //   alchemy.core.getBlockNumber().then(console.log);
 // }
 // block()
 
 // const loadData = async () =>{
-//   const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
+//   const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 //   const provider = new ethers.providers.Web3Provider(window.ethereum);
 //   const contract = new ethers.Contract(usdt_abi, usdtAddress, provider);
 // }
-const Blocks = async() => {
-  const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7"; 
+const Blocks = async () => {
+  const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const contract = new ethers.Contract(usdt_abi, usdtAddress, provider);
-  const block = await provider.getBlock()
-  console.log(block)
+  const block = await provider.getBlock();
+  console.log(block);
   // async function readEvent(){
 
-  // } 
+  // }
 
-  return (
-    <div>
-      usdcAddress
-    </div>
-  );
-
-}
+  return <div>usdcAddress</div>;
+};
 
 // // const Blocks = () => {
 //     // const contract = new web3.eth.Contract(contractAbi, contractAddress);
@@ -84,7 +79,6 @@ const Blocks = async() => {
 //         }
 //     });
 
-
 // // async function getTransfer(){
 // //     const provider = new ethers.providers.WebSocketProvider(
 // //         `wss://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`
@@ -106,14 +100,10 @@ const Blocks = async() => {
 // //     })
 // // }
 
-// // getTransfer() 
+// // getTransfer()
 // // }
 // // }
 export default Blocks;
-
-
-
-
 
 // // const ethers = require('ethers');
 

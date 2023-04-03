@@ -1,0 +1,20 @@
+
+
+# Ignore all HTML files:
+*.html
+
+node_modules
+.env
+.env.local
+.prettierrc.json
+.solhint.json
+coverage
+coverage.json
+typechain
+typechain-types
+migrations
+build
+
+# Hardhat files
+cache
+artifacts

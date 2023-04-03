@@ -28,25 +28,20 @@ module.exports = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
-    }
+        runs: 200,
+      },
+    },
   },
   paths: {
-    sources: "../week1/erc20PartialRefund.sol"
+    sources: "../week1/erc20PartialRefund.sol",
     // tests: "./test",
     // cache: "./cache",
     // artifacts: "./artifacts"
   },
   mocha: {
-    timeout: 40000
-  }
-}
-
-
-
-
-
+    timeout: 40000,
+  },
+};
 
 task("accounts", "Prints the list of accs", async () => {
   const accounts = await ethers.getSigners();

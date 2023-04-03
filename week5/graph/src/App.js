@@ -1,4 +1,4 @@
-import './index.js';
+import "./index.js";
 import "./App.css";
 
 function App() {
