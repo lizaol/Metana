@@ -40,7 +40,7 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+// const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
 // export const data = {
 //   labels,
@@ -116,13 +116,15 @@ export function App() {
   return (
     <div>
       <Line options={options} data={data} />
-      {JSON.stringify(data.datasets)}     
+      datasets: {JSON.stringify(data.datasets)} 
+        
+      lables: {JSON.stringify(data.labels)}   
       {/* {latestBlockNumber} */}
-      <ul>
+      {/* <ul>
         {data.labels.map((label, index) => (
           <li key={index}>{label}</li>
         ))}
-      </ul>
+      </ul> */}
 
     </div>
   );
