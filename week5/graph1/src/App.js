@@ -70,8 +70,7 @@ export function App() {
   const [latestBlockNumber, setLatestBlockNumber] = useState([])
   const [alchemy, setAlchemy] = useState()
   const [data, setData] = useState({ labels: [""], datasets: [{data: []}] })
-  // const [data, setData] = useState({})
-  // const [data, setData] = useState([])
+
 
   // setData(data)
   useEffect(() => {
@@ -86,19 +85,22 @@ export function App() {
         // setLatestBlockNumber(latestBlock)
         // Subscribe to new blocks, or newHeads
         alchemy.ws.on('block', blockNumber => {
-          // const dataHolder = {labels: blockNumber.toString(), datasets: blockNumber}
-          // setLatestBlockNumber(blockNumber)
-          // setData(dataHolder)
-          // setData({...data, dataHolder})
-          // setData(data.datasets.push(blockNumber))
-          // setLatestBlockNumber(blockNumber)
-          // console.log(blockNumber)
           const newLabel = blockNumber.toString();
           const newDataset = blockNumber;
-          setData(prevData => ({
+          // setData(prevData => ({           // this outputs [{"data":[]},{"data":[16979178]},{"data":[16979179]},{"data":[16979180]}]
+          //   labels: [...prevData.labels, newLabel],
+          //   datasets: [
+          //     ...prevData.datasets,
+          //     {
+          //       data: [...prevData.datasets[0].data, newDataset]
+          //     }
+          //   ]
+          // }));
+          setData(prevData => ({        // this outputs [{"data":[]},{"data":[16979178, 16979179, 16979180]}]
             labels: [...prevData.labels, newLabel],
-            datasets: [...prevData.datasets.data, newDataset]   //FIGURE OUT HOW TO CHANGE BRACKETS 
+            datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, newDataset]}]
           }));
+          
         })
       }
     }
@@ -113,7 +115,7 @@ export function App() {
 
   return (
     <div>
-      {/* <Line options={options} data={data} /> */}
+      <Line options={options} data={data} />
       {JSON.stringify(data.datasets)}     
       {/* {latestBlockNumber} */}
       <ul>
