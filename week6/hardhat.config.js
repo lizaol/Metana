@@ -67,19 +67,20 @@ module.exports = {
     ],
   },
   networks: {
-    hardhat: {
-      chainId: 1337,
-      accounts: {
-        mnemonic: "fat guard cable craft belt account midnight beach accuse fetch congress clerk divide dry exercise",
-      },
+    // hardhat: {
+    //   chainId: 1337,
+    //   accounts: {
+    //     mnemonic: "fat guard cable craft belt account midnight beach accuse fetch congress clerk divide dry exercise",
+    //   },
+    // },
+    local: {
+      url: "http://localhost:8545",
+      chainId: 31337,
+      // accounts: {
+      //   mnemonic: "fat guard cable craft belt account midnight beach accuse fetch congress clerk divide dry exercise",
+      // },
     },
   },
 };
 
-// task("deploy", "Deploys the contract")
-//   .setAction(async () => {
-//     const contractFactory = await ethers.getContractFactory("CallMe");
-//     const contract = await contractFactory.deploy();
-//     await contract.deployed();
-//     console.log("Contract deployed to:", contract.address);
-//   });
+
