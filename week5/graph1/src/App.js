@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Alchemy, Network } from "alchemy-sdk";
-// const usdtAdr = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+const usdtAdr = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
 // const contractABI = require("./abi.json");
 // export const usdt = new web3.eth.Contract(
 //   contractABI,
@@ -40,26 +40,6 @@ export const options = {
   },
 };
 
-// const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-// export const data = {
-//   labels,
-//   datasets: [
-//     {
-//       label: "Dataset 1",
-//       data: [-1000, -750, -500, 500, 600, 750, 1000],
-//       borderColor: "rgb(255, 99, 132)",
-//       backgroundColor: "rgba(255, 99, 132, 0.5)",
-//     },
-//     {
-//       label: "Dataset 2",
-//       data: [-900, -650, -300, 300, 400, 650, 800],
-//       borderColor: "rgb(53, 162, 235)",
-//       backgroundColor: "rgba(53, 162, 235, 0.5)",
-//     },
-//   ],
-// };
-
 export function App() {
   // Optional config object, but defaults to demo api-key and eth-mainnet.
   const settings = {
@@ -67,35 +47,37 @@ export function App() {
     network: Network.ETH_MAINNET, // Replace with your network.
   };
   
-  const [latestBlockNumber, setLatestBlockNumber] = useState([])
+  const [latestBlockNumber, setLatestBlockNumber] = useState()
   const [alchemy, setAlchemy] = useState()
   const [data, setData] = useState({ labels: [""], datasets: [{data: []}] })
-
-
-  // setData(data)
+  const [volume, setVolume] = useState([])
   useEffect(() => {
     const alchemy = new Alchemy(settings);
     setAlchemy(alchemy)
     let ignore = false
     const latestBlockNumber = async () => {
       // Get and set the latest block number for the first time
-      const latestBlock = await alchemy.core.getBlockNumber()
-
+      // const latestBlock = await alchemy.core.getBlockNumber()
+      // setLatestBlockNumber(latestBlock)
       if (!ignore) {
         // setLatestBlockNumber(latestBlock)
         // Subscribe to new blocks, or newHeads
         alchemy.ws.on('block', blockNumber => {
           const newLabel = blockNumber.toString();
           const newDataset = blockNumber;
-          // setData(prevData => ({           // this outputs [{"data":[]},{"data":[16979178]},{"data":[16979179]},{"data":[16979180]}]
-          //   labels: [...prevData.labels, newLabel],
-          //   datasets: [
-          //     ...prevData.datasets,
-          //     {
-          //       data: [...prevData.datasets[0].data, newDataset]
-          //     }
-          //   ]
-          // }));
+          logsListener(blockNumber)
+          // alchemy.core
+          //   .getLogs({
+          //     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+          //     topics: [
+          //       "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          //     ],
+          //     fromBlock: blockNumber - 10,
+          //     toBlock: "latest",
+          //   })
+          //   .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
+
+          setLatestBlockNumber(blockNumber)
           setData(prevData => ({        // this outputs [{"data":[]},{"data":[16979178, 16979179, 16979180]}]
             labels: [...prevData.labels, newLabel],
             datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, newDataset]}]
@@ -107,15 +89,41 @@ export function App() {
 
     latestBlockNumber()
 
+    const logsListener = async (_blockNumber) =>{
+    const latestBlock = await alchemy.core.getBlockNumber()
+    await alchemy.core
+      .getLogs({
+        address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        topics: [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+        ],
+        fromBlock: _blockNumber - 1,
+        toBlock: "latest",
+      })
+      .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
+      // .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, parseInt(log.data, 16)]))))
+      // .then(console.log);
+
+      // log.forEach((entry) => {
+      //   const data = parseInt(entry.data, 16);
+      //   console.log(data);
+      // });
+    }
+
+  //   // setVolume(log.result[0].data)
+    
+
+    // logsListener()
     return () => {
       ignore = true
       alchemy.ws.removeAllListeners()
     }
+
   }, [])
 
   return (
     <div>
-      <Line options={options} data={data} />
+      {/* <Line options={options} data={data} /> */}
       datasets: {JSON.stringify(data.datasets)} 
         
       lables: {JSON.stringify(data.labels)}   
@@ -125,7 +133,10 @@ export function App() {
           <li key={index}>{label}</li>
         ))}
       </ul> */}
-
+      <div> 
+        Volume: {volume}
+        Latest block: {latestBlockNumber}
+      </div>
     </div>
   );
 }
