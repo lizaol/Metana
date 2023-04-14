@@ -1,3 +1,5 @@
+// this code has variativity of how to setVolume
+
 import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
@@ -40,6 +42,8 @@ export const options = {
   },
 };
 
+
+
 export function App() {
   // Optional config object, but defaults to demo api-key and eth-mainnet.
   const settings = {
@@ -47,41 +51,62 @@ export function App() {
     network: Network.ETH_MAINNET, // Replace with your network.
   };
   
-  const [latestBlockNumber, setLatestBlockNumber] = useState()
+  const [latestBlockNumber, setLatestBlockNumber] = useState([])
   const [alchemy, setAlchemy] = useState()
   const [data, setData] = useState({ labels: [""], datasets: [{data: []}] })
   const [volume, setVolume] = useState([])
+
+  // setData(data)
   useEffect(() => {
     const alchemy = new Alchemy(settings);
     setAlchemy(alchemy)
     let ignore = false
     const latestBlockNumber = async () => {
       // Get and set the latest block number for the first time
-      // const latestBlock = await alchemy.core.getBlockNumber()
-      // setLatestBlockNumber(latestBlock)
+      const latestBlock = await alchemy.core.getBlockNumber()
+
       if (!ignore) {
         // setLatestBlockNumber(latestBlock)
         // Subscribe to new blocks, or newHeads
         alchemy.ws.on('block', blockNumber => {
           const newLabel = blockNumber.toString();
-          const newDataset = blockNumber;
-          logsListener(blockNumber)
-          // alchemy.core
-          //   .getLogs({
-          //     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-          //     topics: [
-          //       "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-          //     ],
-          //     fromBlock: blockNumber - 10,
-          //     toBlock: "latest",
-          //   })
-          //   .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
+          alchemy.core
+            .getLogs({
+                address: usdtAdr,
+                topics: [
+                "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",     //topic hash of the ERC-20 Transfer event
+                ],
+                fromBlock: blockNumber - 1,
+                toBlock: "latest",
+            })
+            .then(logs => {
+              const sum1 = logs.reduce((acc, log) => acc + parseInt(log.data, 16), 0); //acc-accumulator, 0-init value
+              // setVolume(sum);
+              setData(prevData => ({
+                labels: [...prevData.labels, newLabel],
+                datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, sum1]}]
+              }))
+            });
+            // .then(logs => {
+            //   const data = logs.map(log => parseInt(log.data, 16)).join(',');
+            //   setVolume(data);
+            // });
+            // .then(logs => {
+            //   const newVolume = []
+            //   logs.forEach(log => {
+            //     newVolume.push(parseInt(log.data, 16))
+            //   })
+            //   setVolume(prevVol => ([...prevVol, ...newVolume]))
+            // })
+            // .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
+          
 
-          setLatestBlockNumber(blockNumber)
-          setData(prevData => ({        // this outputs [{"data":[]},{"data":[16979178, 16979179, 16979180]}]
-            labels: [...prevData.labels, newLabel],
-            datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, newDataset]}]
-          }));
+          // const newLabel = blockNumber.toString();
+          // const newDataset = blockNumber;
+          // setData(prevData => ({        // this outputs [{"data":[]},{"data":[16979178, 16979179, 16979180]}]
+          //   labels: [...prevData.labels, newLabel],
+          //   datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, newDataset]}]
+          // }));
           
         })
       }
@@ -89,36 +114,11 @@ export function App() {
 
     latestBlockNumber()
 
-    const logsListener = async (_blockNumber) =>{
-    const latestBlock = await alchemy.core.getBlockNumber()
-    await alchemy.core
-      .getLogs({
-        address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        topics: [
-          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-        ],
-        fromBlock: _blockNumber - 1,
-        toBlock: "latest",
-      })
-      .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
-      // .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, parseInt(log.data, 16)]))))
-      // .then(console.log);
 
-      // log.forEach((entry) => {
-      //   const data = parseInt(entry.data, 16);
-      //   console.log(data);
-      // });
-    }
-
-  //   // setVolume(log.result[0].data)
-    
-
-    // logsListener()
     return () => {
       ignore = true
       alchemy.ws.removeAllListeners()
     }
-
   }, [])
 
   return (
@@ -128,15 +128,11 @@ export function App() {
         
       lables: {JSON.stringify(data.labels)}   
       {/* {latestBlockNumber} */}
-      {/* <ul>
-        {data.labels.map((label, index) => (
-          <li key={index}>{label}</li>
-        ))}
-      </ul> */}
-      <div> 
-        Volume: {volume}
-        Latest block: {latestBlockNumber}
+     
+      <div>
+         volume: {volume}
       </div>
+      
     </div>
   );
 }
