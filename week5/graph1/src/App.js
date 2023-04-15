@@ -1,5 +1,3 @@
-// this code has variativity of how to setVolume
-
 import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
@@ -29,7 +27,7 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+const optionsVolume = {
   responsive: true,
   plugins: {
     legend: {
@@ -37,11 +35,22 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Line Chart",
+      text: "USDT transfer volume",
     },
   },
 };
-
+const optionsFee = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "USDT base fee",
+    },
+  },
+};
 
 
 export function App() {
@@ -53,14 +62,17 @@ export function App() {
   
   const [latestBlockNumber, setLatestBlockNumber] = useState([])
   const [alchemy, setAlchemy] = useState()
-  const [data, setData] = useState({ labels: [""], datasets: [{data: []}] })
+  const [data, setData] = useState({ labels: [], datasets: [{data: []}] })
+  const [baseFee, setBaseFee] = useState({ labels: [], datasets: [{data: []}] });
   const [volume, setVolume] = useState([])
-
+  const [fee, setFee] = useState([])
   // setData(data)
   useEffect(() => {
     const alchemy = new Alchemy(settings);
     setAlchemy(alchemy)
     let ignore = false
+   
+    // this doesn't preload
     const latestBlockNumber = async () => {
       // Get and set the latest block number for the first time
       const latestBlock = await alchemy.core.getBlockNumber()
@@ -69,6 +81,7 @@ export function App() {
         // setLatestBlockNumber(latestBlock)
         // Subscribe to new blocks, or newHeads
         alchemy.ws.on('block', blockNumber => {
+
           const newLabel = blockNumber.toString();
           alchemy.core
             .getLogs({
@@ -76,44 +89,40 @@ export function App() {
                 topics: [
                 "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",     //topic hash of the ERC-20 Transfer event
                 ],
-                fromBlock: blockNumber - 1,
+                fromBlock: blockNumber - 9,
                 toBlock: "latest",
             })
             .then(logs => {
               const sum1 = logs.reduce((acc, log) => acc + parseInt(log.data, 16), 0); //acc-accumulator, 0-init value
               // setVolume(sum);
               setData(prevData => ({
-                labels: [...prevData.labels, newLabel],
-                datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, sum1]}]
+                labels: [...prevData.labels.slice(-9), newLabel.slice()],
+                datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), sum1]}]
               }))
+              getBaseFee(newLabel)
+            
             });
-            // .then(logs => {
-            //   const data = logs.map(log => parseInt(log.data, 16)).join(',');
-            //   setVolume(data);
-            // });
-            // .then(logs => {
-            //   const newVolume = []
-            //   logs.forEach(log => {
-            //     newVolume.push(parseInt(log.data, 16))
-            //   })
-            //   setVolume(prevVol => ([...prevVol, ...newVolume]))
-            // })
-            // .then(logs => logs.map(log => setVolume(prevVol => ([...prevVol, log.data]))))
-          
-
-          // const newLabel = blockNumber.toString();
-          // const newDataset = blockNumber;
-          // setData(prevData => ({        // this outputs [{"data":[]},{"data":[16979178, 16979179, 16979180]}]
-          //   labels: [...prevData.labels, newLabel],
-          //   datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data, newDataset]}]
-          // }));
           
         })
       }
+
     }
-
+    const getBaseFee = async (newLabel) => {
+      const res =await alchemy.core.send('eth_feeHistory', [
+        '0x9',
+        'latest',
+        []
+      ]);
+      const baseFeePerGasInt = res.baseFeePerGas.map(value => parseInt(value, 16));
+      setFee(baseFeePerGasInt)
+      console.log(baseFeePerGasInt)
+      setBaseFee(prevData => ({
+        labels: [...prevData.labels.slice(-9), newLabel.slice()],
+        datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), ...baseFeePerGasInt]}]
+      }))
+    }
     latestBlockNumber()
-
+    // getBaseFee()
 
     return () => {
       ignore = true
@@ -123,15 +132,19 @@ export function App() {
 
   return (
     <div>
-      {/* <Line options={options} data={data} /> */}
+      <Line options={optionsVolume} data={data} />
       datasets: {JSON.stringify(data.datasets)} 
-        
-      lables: {JSON.stringify(data.labels)}   
+      <div>
+        lables: {JSON.stringify(data.labels)} 
+      </div>
+
+      <div>
+        <Line options={optionsFee} data={baseFee} />
+      </div>
+      <div>basefee: {fee}</div>
       {/* {latestBlockNumber} */}
      
-      <div>
-         volume: {volume}
-      </div>
+
       
     </div>
   );
