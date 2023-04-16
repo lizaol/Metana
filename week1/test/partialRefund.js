@@ -33,18 +33,21 @@ describe("Testing partial refund contract", () => {
     );
   });
   it("should fail if msg.value is less than 1 ether", async function () {
+    
     await expect(pr.minting({ value: "10" })).to.be.revertedWith(
       "Not enough ether"
     );
-  });
+  }); 
   it("should set MAX_TOKENS in mock contract", async () => {
-    await mock.setMax(10);
-    expect(await mock.MAX_TOKENS()).to.equal(10);
+    
+    await mock.setMax(0);
+    expect(await mock.MAX_TOKENS()).to.equal(0);
   });
 
   it("fails if total supply > MAX_TOKENS", async () => {
-    await mock.setMax(10);
-
+    await mock.minting({value: ethers.utils.parseEther("1")})
+    await mock.setMax(0);
+    console.log(await mock.MAX_TOKENS())
     await expect(
       mock.minting({ value: "100000000000000000000" })
     ).to.be.revertedWith("TotalSupply exceeds limit");
