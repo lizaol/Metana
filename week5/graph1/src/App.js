@@ -8,8 +8,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  BarElement,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { Bar } from 'react-chartjs-2';
 import { Alchemy, Network } from "alchemy-sdk";
 const usdtAdr = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
 // const contractABI = require("./abi.json");
@@ -22,6 +24,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -35,7 +38,7 @@ const optionsVolume = {
     },
     title: {
       display: true,
-      text: "USDT transfer volume",
+      text: "USDT Transfer Volume",
     },
   },
 };
@@ -47,7 +50,32 @@ const optionsFee = {
     },
     title: {
       display: true,
-      text: "USDT base fee",
+      text: "Base Fee",
+    },
+  },
+  // scales: {
+  //   yAxes: [
+  //     {
+  //       ticks: {
+  //         beginAtZero: true,
+  //         callback: function (value) {
+  //           return value + ' GWei';
+  //         },
+  //       },
+  //     },
+  //   ],
+  // },
+  
+};
+const optionsGas = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "gasUsed / gasLimit",
     },
   },
 };
@@ -62,11 +90,12 @@ export function App() {
   
   const [latestBlockNumber, setLatestBlockNumber] = useState([])
   const [alchemy, setAlchemy] = useState()
-  const [data, setData] = useState({ labels: [], datasets: [{data: []}] })
-  const [baseFee, setBaseFee] = useState({ labels: [], datasets: [{data: []}] });
-  const [volume, setVolume] = useState([])
-  const [fee, setFee] = useState([])
-  // setData(data)
+  const [data, setData] = useState({ labels: [], datasets: [{label: "USDT", data: [], backgroundColor: 'rgba(99, 141, 255)'}] })
+  const [baseFee, setBaseFee] = useState({ labels: [], datasets: [{label: "BASEFEE", data: [], borderColor: 'rgb(199, 8, 18)', backgroundColor: 'rgba(222, 95, 102)'}] });
+  const [gasRatio, setGasRatio] = useState({ labels: [], datasets: [{label: "gasUsedRatio", data: [], borderColor: 'rgb(66, 168, 3)', backgroundColor: 'rgba(161, 237, 114)'}] });
+  // const [volume, setVolume] = useState([])
+  // const [gas, setGas] = useState([])
+  // const [fee, setFee] = useState([])
   useEffect(() => {
     const alchemy = new Alchemy(settings);
     setAlchemy(alchemy)
@@ -92,14 +121,17 @@ export function App() {
                 fromBlock: blockNumber - 9,
                 toBlock: "latest",
             })
-            .then(logs => {
-              const sum1 = logs.reduce((acc, log) => acc + parseInt(log.data, 16), 0); //acc-accumulator, 0-init value
+            .then(async(logs) => {
+              const sum1 = logs.reduce((acc, log) => acc + parseInt(log.data, 16) / 1e7, 0); //acc-accumulator, 0-init value
               // setVolume(sum);
+              console.log("logs: ", logs)
+              console.log("TransactionReceipt: ", await alchemy.core.getTransactionReceipt(logs[0].transactionHash))
               setData(prevData => ({
                 labels: [...prevData.labels.slice(-9), newLabel.slice()],
                 datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), sum1]}]
               }))
               getBaseFee(newLabel)
+              getGasRatio(newLabel)
             
             });
           
@@ -113,16 +145,31 @@ export function App() {
         'latest',
         []
       ]);
-      const baseFeePerGasInt = res.baseFeePerGas.map(value => parseInt(value, 16));
-      setFee(baseFeePerGasInt)
+      const baseFeePerGasInt = res.baseFeePerGas.map(value => parseInt(value, 16) / 1e9);
+      // setFee(baseFeePerGasInt)
       console.log(baseFeePerGasInt)
       setBaseFee(prevData => ({
         labels: [...prevData.labels.slice(-9), newLabel.slice()],
-        datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), ...baseFeePerGasInt]}]
+        datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), baseFeePerGasInt]}]
+      }))
+    }
+
+    const getGasRatio = async(newLabel) => {
+      const res =await alchemy.core.send('eth_feeHistory', [
+        '0x9',
+        'latest',
+        []
+      ]);
+      const gas = res.gasUsedRatio.map(value => value * 100)
+      console.log("gasUsedRatio", gas)
+      // setGas(res.gasUsedRatio)
+      setGasRatio(prevData => ({
+        labels: [...prevData.labels.slice(-9), newLabel.slice()],
+        datasets: [{...prevData.datasets[0], data: [...prevData.datasets[0].data.slice(-9), gas]}]
       }))
     }
     latestBlockNumber()
-    // getBaseFee()
+
 
     return () => {
       ignore = true
@@ -132,20 +179,18 @@ export function App() {
 
   return (
     <div>
-      <Line options={optionsVolume} data={data} />
-      datasets: {JSON.stringify(data.datasets)} 
-      <div>
-        lables: {JSON.stringify(data.labels)} 
+      <div style={{ width: '65%', margin: '0 auto', marginBottom: '70px' }}>
+        <Bar options={optionsVolume} data={data} />
       </div>
 
-      <div>
+      <div style={{ width: '65%', margin: '0 auto', marginBottom: '70px' }}>
         <Line options={optionsFee} data={baseFee} />
       </div>
-      <div>basefee: {fee}</div>
-      {/* {latestBlockNumber} */}
-     
 
-      
+      <div style={{ width: '65%', margin: '0 auto', marginBottom: '70px' }}>
+        <Line options={optionsGas} data={gasRatio} />
+      </div>
+
     </div>
   );
 }

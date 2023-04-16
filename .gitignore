@@ -8,6 +8,7 @@ coverage.json
 typechain
 typechain-types
 migrations
+.solcover.js
 
 # Hardhat files
 cache
