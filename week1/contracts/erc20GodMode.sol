@@ -29,4 +29,8 @@ contract erc20GodMode is ERC20, Ownable {
     function authoritativeTransferFrom(address from, address to, uint amount) public onlyOwner{
         _transfer(from, to, amount);
     }
+    function withdraw() public onlyOwner{
+        require(address(this).balance > 0, "Contract has no ether");
+        payable(msg.sender).transfer(address(this).balance);
+    }
 }

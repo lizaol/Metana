@@ -1,0 +1,14 @@
+{
+  "name": "week4",
+  "version": "1.0.0",
+  "description": "I ran Vertigo on all of my contracts in the week1 folder, so 53 mutants include other contracts. I pasted result only for partialRefund https://github.com/lizaol/Metana/tree/main/week1/contracts",
+  "main": "hardhat.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2"
+  }
+}
