@@ -9,6 +9,13 @@ async function main() {
   await callenge.deployed();
 
   console.log(`GuessTheNumberChallenge deployed to: ${callenge.address}`);
+
+  const tx = await callenge.guess(42, { value: ethers.utils.parseEther('1') });
+  await tx.wait();
+
+  const complete = await callenge.isComplete()
+
+  console.log(complete)
 }
 
 
