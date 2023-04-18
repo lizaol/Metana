@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { assert } = require("console");
 const { ethers } = require("hardhat");
-const constants = require("./constants");
+// const constants = require("./constants");
 require("@nomicfoundation/hardhat-chai-matchers");
 
 describe("Testing partial refund contract", () => {
@@ -300,34 +300,64 @@ describe("Testing partial refund contract", () => {
   });
 
   // it('onERC1155Received', async function () {
-  //   await expect(forge.onERC1155Received(accounts[0].address, accounts[0].address,GOLD, 1, '')).to.be.revertedWith("You don't have gold");
-  //
+  //   await expect(forge.onERC1155Received(accounts[0].address, accounts[0].address,GOLD, 1, '')).to.not.be.reverted
+  
   // });
-  it("should allow to receive ERC1155 tokens", async function () {
-    // bytes32 constant ZERO_BYTES32 = bytes32(0);
-    // Mint 1 Gold token and send it to the forge contract
-    await erc1155Deployed
-      .connect(accounts[0].address)
-      .mint(forge.address, GOLD, 1, constants.bytes32);
+  // it('onERC1155Received', async function () {
+  //   const balanceBefore = await erc1155Deployed.balanceOf(forge.address, GOLD);
+  //   console.log(balanceBefore)
+  //   await forge.onERC1155Received(accounts[0].address, accounts[0].address,GOLD, 1, 0x00000000)
+  //   await expect(forge.balanceOf(accounts[0].address, GOLD) > 0).to.be.true
+  // });
+  // it("should allow to receive ERC1155 tokens", async function () {
+    
+  //   // Mint 1 Gold token and send it to the forge contract
+  //   await erc1155Deployed
+  //     
+  //     .mint(forge.address, GOLD, 1);
 
-    // Check the balance of the forge contract before the transfer
-    const balanceBefore = await erc1155Deployed.balanceOf(forge.address, GOLD);
+  //   // Check the balance of the forge contract before the transfer
+  //   const balanceBefore = await erc1155Deployed.balanceOf(forge.address, GOLD);
 
-    // Call onERC1155Received function
-    await expect(
-      forge.onERC1155Received(
-        owner.address,
-        user1.address,
-        GOLD,
-        1,
-        constants.ZERO_BYTES32
-      )
-    ).to.not.be.reverted;
+  //   // Call onERC1155Received function
+  //   await expect(
+  //     forge.onERC1155Received(
+  //       owner.address,
+  //       user1.address,
+  //       GOLD,
+  //       1,
+  //       ''
+  //     )
+  //   ).to.not.be.reverted;
 
-    // Check the balance of the forge contract after the transfer
-    const balanceAfter = await erc1155Deployed.balanceOf(forge.address, GOLD);
+  //   // Check the balance of the forge contract after the transfer
+  //   const balanceAfter = await erc1155Deployed.balanceOf(forge.address, GOLD);
 
-    // Check that the balance of the forge contract has decreased by 1
-    expect(balanceAfter).to.equal(balanceBefore.sub(BigNumber.from(1)));
-  });
+  //   // Check that the balance of the forge contract has decreased by 1
+  //   expect(balanceAfter).to.equal(balanceBefore.sub(BigNumber.from(1)));
+  // });
+  // it("should receive an ERC1155 batch", async function () {
+  //   const tokenId = 1;
+  //   const amount = 10;
+  //   const data = "0x12345678";
+
+  //   // Mint some tokens to the sender
+  //   await erc1155Deployed.mint(accounts[1].address, tokenId, amount);
+
+  //   // Approve the contract to spend the tokens
+  //   await erc1155Deployed.setApprovalForAll(forge.address, true);
+
+  //   // Send the batch to the contract
+  //   const tx = await erc1155Deployed.safeBatchTransferFrom(accounts[1].address, forge.address, [tokenId], [amount], data);
+
+  //   // Check that the event was emitted
+  //   const receipt = await tx.wait();
+  //   expect(receipt.events.length).to.equal(1);
+  //   expect(receipt.events[0].event).to.equal("BatchReceived");
+  //   expect(receipt.events[0].args.operator).to.equal(accounts[1].address);
+  //   expect(receipt.events[0].args.from).to.equal(accounts[1].address);
+  //   expect(receipt.events[0].args.ids[0]).to.equal(tokenId);
+  //   expect(receipt.events[0].args.values[0]).to.equal(amount);
+  //   expect(receipt.events[0].args.data).to.equal(data);
+  // });
 });

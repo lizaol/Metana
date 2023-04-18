@@ -102,12 +102,7 @@ contract forge is ERC1155Holder {
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155Receiver) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
-    /* function onERC1155Received(address operator, address from, uint256 id, uint256 value, bytes memory data) public virtual override returns (bytes4) {
-        if (id == GOLD) {
-          token.mint(msg.sender, GOLD, 10**18);
-        }
-        return this.onERC1155Received.selector;
-    } */
+
     function onERC1155Received(
     address,
     address,
@@ -119,7 +114,7 @@ contract forge is ERC1155Holder {
 }
     function onERC1155BatchReceived(
         address,
-        address,
+        address, 
         uint256[] memory,
         uint256[] memory,
         bytes memory
