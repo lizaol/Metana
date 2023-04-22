@@ -53,7 +53,8 @@
 
 // import { task } from "hardhat/config";
 // const { ethers } = require("ethers");
-require("@nomiclabs/hardhat-waffle");
+require("@nomicfoundation/hardhat-toolbox");
+// require("@nomiclabs/hardhat-waffle");
 module.exports = {
   solidity: {
     compilers: [
@@ -66,6 +67,11 @@ module.exports = {
       },
     ],
   },
+  settings: {
+    remappings: {
+      "@openzeppelin/contracts": "./node_modules/@openzeppelin/contracts",
+    },
+  },
   networks: {
     // hardhat: {
     //   chainId: 1337,
@@ -76,9 +82,9 @@ module.exports = {
     local: {
       url: "http://localhost:8545",
       chainId: 31337,
-      // accounts: {
-      //   mnemonic: "fat guard cable craft belt account midnight beach accuse fetch congress clerk divide dry exercise",
-      // },
+      accounts: {
+        mnemonic: "test test test test test test test test test test test junk",
+      },
     },
   },
 };

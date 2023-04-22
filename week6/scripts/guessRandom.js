@@ -11,7 +11,7 @@ async function main() {
   console.log(`GuessTheRandomNumberChallenge deployed to: ${challenge.address}`);
  
   const number = await challenge.provider.getStorageAt(challenge.address, 0);
-
+ 
   const tx = await challenge.guess(number, {value: ethers.utils.parseEther("1")})
   await tx.wait()
 

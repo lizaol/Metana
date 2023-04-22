@@ -14,7 +14,7 @@ async function main() {
   await tx.wait()
 
   console.log(await callenge.isComplete())
-} 
+}  
 
 
 
