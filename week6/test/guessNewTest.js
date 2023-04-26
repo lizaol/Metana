@@ -19,12 +19,12 @@ before(async () => {
       .then((factory) => factory.deploy(game.address, { value: ethers.utils.parseEther("1") }));
 });
 
-it("solves the challenge", async function () {
+it("guess New", async function () {
   console.log("hack:", hack.address)
-  const tx = await hack.solve();
+  const tx = await hack.solve({value: ethers.utils.parseEther("1")} );
   await tx.wait()
   
-  // const tx1 = await game.isComplete()
+  // const tx1 = await game.iComplete()
   // await tx1.wait()
 
   // console.log(tx1)
@@ -34,4 +34,5 @@ it("solves the challenge", async function () {
   console.log("bal: ", balance)
 });
 
-
+ 
+ 
