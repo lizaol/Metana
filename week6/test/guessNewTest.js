@@ -12,7 +12,7 @@ let hack;
 before(async () => {
   accounts = await ethers.getSigners();
   eoa = accounts[0];
-  game = await ethers.getContractFactory("GuessTheNewNumber")
+  game = await ethers.getContractFactory("GuessTheNewNumberChallenge")
       .then((factory) => factory.deploy({ value: ethers.utils.parseEther("1") }));
 
   hack = await ethers.getContractFactory("GuessNewAnswer")
@@ -21,17 +21,14 @@ before(async () => {
 
 it("guess New", async function () {
   console.log("hack:", hack.address)
-  const tx = await hack.solve({value: ethers.utils.parseEther("1")} );
+  const tx = await hack.solve();
   await tx.wait()
   
-  // const tx1 = await game.iComplete()
+  const tx1 = await hack.isComplete()
   // await tx1.wait()
 
-  // console.log(tx1)
-  const balance = await ethers.provider.getBalance(game.address);
-  // const isComplete = await contract.isComplete()
-  // expect(isComplete).to.be.true;
-  console.log("bal: ", balance)
+  console.log("tx1:", tx1)
+  expect(tx1).to.be.true;
 });
 
  

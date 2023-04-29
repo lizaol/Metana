@@ -13,14 +13,16 @@ before(async () => {
   accounts = await ethers.getSigners();
   acc = accounts[0].address;
   game = await ethers.getContractFactory("TokenBankChallenge")
-      .then((factory) => factory.deploy({ value: ethers.utils.parseEther("1") }));
+      .then((factory) => factory.deploy(acc));
 
   hack = await ethers.getContractFactory("TokenBankAnswer")
-      .then((factory) => factory.deploy(game.address, { value: ethers.utils.parseEther("1") }));
+      .then((factory) => factory.deploy(game.address));
 });
 
-it("guess New", async function () {
+it("token bank", async function () {
   console.log("hack:", hack.address)
+  // const tx = await hack.attack()
+  // await tx.wait()
 
   console.log("bal acc1: ", await game.balanceOf(acc))
 //   console.log("bal: ", balance)
