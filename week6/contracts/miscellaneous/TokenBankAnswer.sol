@@ -20,7 +20,7 @@ contract TokenBankAnswer {
     function TokenBankAnswer(address _adr) public{
         bank = ITokenBankChallenge(_adr);
         // token = ISimpleERC223Token(bank.token());
-    }
+    } 
 
     
     // function attack() public {

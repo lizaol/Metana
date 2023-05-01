@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../DamnValuableToken.sol";
 
+
 /** 
  * @title TrusterLenderPool
  * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
@@ -22,7 +23,7 @@ contract TrusterLenderPool is ReentrancyGuard {
     }
 
     function flashLoan(uint256 amount, address borrower, address target, bytes calldata data)
-        external
+        external 
         nonReentrant
         returns (bool)
     {
