@@ -17,7 +17,3 @@ contract APL is Ownable, ERC721URIStorage {
         _setTokenURI(tokenId, _uri);
     }
 }
-
-
-
-

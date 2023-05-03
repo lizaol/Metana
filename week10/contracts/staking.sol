@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "hardhat/console.sol";
+pragma solidity ^0.8.18;
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract staking is IERC721Receiver{
+
+contract stakingUp is Initializable, IERC721ReceiverUpgradeable{
   struct Stake {
         uint tokenId;
         uint timestamp;
@@ -15,18 +16,18 @@ contract staking is IERC721Receiver{
         bool stakedBool;
     } 
 
-  stakingErc20 token;
-  stakingErc721 nft;
-    
+  erc20Up token;
+  erc721Up nft;
+  uint private tokenSec;    // tokens per second 
   mapping(uint256 => Stake) public vault;     // tokenId => Stake
-
   uint timeDeployed;
-  constructor(stakingErc20 _token, stakingErc721 _nft){
-      token = _token;
-      nft = _nft;
-      timeDeployed = block.timestamp;
-    }
 
+  function initialize(erc20Up _token, erc721Up _nft) external initializer{
+    token = _token;
+    nft = _nft;
+    timeDeployed = block.timestamp;
+    tokenSec = uint256(10 * 10 ** 18) / 24 / 60 / 60;
+  }
   function stake(uint256 tokenId) public {
         require(nft.ownerOf(tokenId) == msg.sender, "not your token");
         require(!vault[tokenId].stakedBool, "already staked");
@@ -44,11 +45,8 @@ contract staking is IERC721Receiver{
         require(staked.owner != address(0) && staked.owner == msg.sender, "not an owner");
         delete staked;
         nft.transferFrom(address(this), account, tokenId);
-        console.log("tokens:", token.balanceOf(address(this)), "nfts: ", nft.balanceOf(address(this)));
+        // console.log("tokens:", token.balanceOf(address(this)), "nfts: ", nft.balanceOf(address(this)));
   }
-
-  // tokens per second 
-  uint private tokenSec = uint256(10 * 10 ** 18) / 24 / 60 / 60;
 
   function withdraw(uint tokenId) public{
         Stake memory staked = vault[tokenId];
@@ -65,15 +63,16 @@ contract staking is IERC721Receiver{
 
   function onERC721Received(address, address from, uint256, bytes calldata) external pure override returns (bytes4) {
       require(from == address(0x0), "Cannot send nfts to Vault directly");
-      return IERC721Receiver.onERC721Received.selector;
+      return IERC721ReceiverUpgradeable.onERC721Received.selector;
     }
 }
 
 
 
-contract stakingErc20 is ERC20 {
-  constructor() ERC20("Liza", "LIZ") { 
-      _mint(msg.sender, 100 *10 **decimals());
+contract erc20Up is Initializable, ERC20Upgradeable, OwnableUpgradeable {
+  function initialize() external initializer{
+          __ERC20_init("Tok", "TK");
+          _mint(msg.sender, 100 *10 **decimals());
   }
 
   function mint(address to, uint256 amount) external{
@@ -81,11 +80,13 @@ contract stakingErc20 is ERC20 {
   }
 }
 
-contract stakingErc721 is ERC721, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIdCounter;
+contract erc721Up is Initializable, ERC721Upgradeable, OwnableUpgradeable {
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+    CountersUpgradeable.Counter private _tokenIdCounter;
 
-    constructor() ERC721("Liza", "LIZ") {}
+    function initialize() external initializer{
+      __ERC721_init("Tok", "TK");
+    }
 
     function safeMint(address to) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();

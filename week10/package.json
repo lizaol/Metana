@@ -6,5 +6,11 @@
     "@openzeppelin/hardhat-upgrades": "^1.23.1",
     "ethers": "^5.7.2",
     "hardhat": "^2.14.0"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@openzeppelin/contracts": "^4.8.3",
+    "@openzeppelin/contracts-upgradeable": "^4.8.3",
+    "alchemy-sdk": "^2.8.2"
   }
 }
