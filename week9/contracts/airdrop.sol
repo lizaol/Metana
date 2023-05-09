@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin-contracts/contracts/utils/cryptography/MerkleProof.sol";
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/utils/structs/BitMaps.sol";
 import "./merkle.sol";
 
@@ -19,7 +19,7 @@ contract airDrop {
     }
     
     function claim(bytes32[] calldata proof, uint id, string memory secret) external{
-        require();
+        // require();
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
         require(MerkleProof.verify(proof, root, leaf), "Incorrect merkle proof");
         token.reveal(id, secret);
