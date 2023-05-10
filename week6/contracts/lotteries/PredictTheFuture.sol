@@ -12,7 +12,7 @@ contract PredictTheFutureChallenge {
     function isComplete() public view returns (bool) {
         return address(this).balance == 0;
     }
-
+ 
     function lockInGuess(uint8 n) public payable {
         require(guesser == 0);
         require(msg.value == 1 ether);
