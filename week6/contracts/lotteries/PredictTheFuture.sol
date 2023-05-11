@@ -12,7 +12,7 @@ contract PredictTheFutureChallenge {
     function isComplete() public view returns (bool) {
         return address(this).balance == 0;
     }
- 
+
     function lockInGuess(uint8 n) public payable {
         require(guesser == 0);
         require(msg.value == 1 ether);
@@ -26,7 +26,9 @@ contract PredictTheFutureChallenge {
         require(msg.sender == guesser);
         require(block.number > settlementBlockNumber);
 
-        uint8 answer = uint8(keccak256(block.blockhash(block.number - 1), now)) % 10;
+        uint8 answer = uint8(
+            keccak256(block.blockhash(block.number - 1), now)
+        ) % 10;
 
         guesser = 0;
         if (guess == answer) {

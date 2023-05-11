@@ -3,11 +3,11 @@ pragma solidity ^0.8.17;
 
 interface IGuessTheNewNumberChallenge {
     function guess(uint8 n) external payable;
+
     function isComplete() external view returns (bool);
 }
 
 contract GuessNewAnswer {
-
     IGuessTheNewNumberChallenge public challenge;
     address public owner;
 
@@ -20,7 +20,16 @@ contract GuessNewAnswer {
     function solve() public payable {
         require(msg.sender == owner, "Only the owner can solve this challenge");
         // require(msg.value == 1 ether, "You must send an ether, first");
-        uint8 answer = uint8(uint256(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp))));
+        uint8 answer = uint8(
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        blockhash(block.number - 1),
+                        block.timestamp
+                    )
+                )
+            )
+        );
         challenge.guess{value: 1 ether}(answer);
         payable(msg.sender).transfer(address(this).balance);
     }
@@ -32,13 +41,12 @@ contract GuessNewAnswer {
     receive() external payable {}
 
     fallback() external payable {}
-
 }
 
 //  pragma solidity ^0.4.21;
- 
+
 // import "./GuessTheNewNumber.sol";
- 
+
 // contract GuessNewAnswer{
 //     GuessTheNewNumber challenge;
 //     function GuessNewAnswer(address _challenge) public payable {
@@ -56,7 +64,6 @@ contract GuessNewAnswer {
 //         // challenge.guess(answer, {value: 1 ether});
 //     }
 
-
 //     // function complete() public pure returns(bool){
 //     //     return true;
 //     // }
@@ -66,10 +73,4 @@ contract GuessNewAnswer {
 //     //     return challenge.isComplete();
 //     // }
 
-// } 
-
-
-
-
-
-
+// }
