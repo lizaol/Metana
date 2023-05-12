@@ -18,7 +18,7 @@ before(async () => {
 
     // await network.provider.send("evm_increaseTime", [4600])
     // await network.provider.send("evm_mine", [Date.now() + 256]);
-    for (let i = 0; i < 255; i++) {
+    for (let i = 0; i < 258; i++) {
         await network.provider.send("evm_mine");
     }
 
