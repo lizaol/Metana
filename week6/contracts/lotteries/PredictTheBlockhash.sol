@@ -20,7 +20,7 @@ contract PredictTheBlockHashChallenge {
         guesser = msg.sender;
         guess = hash;
         settlementBlockNumber = block.number + 1;
-    }
+    } 
  
     function settle() public {
         require(msg.sender == guesser);
