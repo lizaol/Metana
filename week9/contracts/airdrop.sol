@@ -3,11 +3,11 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/utils/structs/BitMaps.sol";
-import "./merkle.sol";
+import "./merkleToken.sol";
 
 contract airDrop {
     using BitMaps for BitMaps.BitMap;
-    Merkle token;
+    MerkleToken token;
     bytes32 public immutable root;
     uint public immutable rewardAmount;
     BitMaps.BitMap private claimed;
@@ -15,7 +15,7 @@ contract airDrop {
     constructor(bytes32 _root, uint _amount, address _token){
         root = _root;
         rewardAmount = _amount;
-        token = Merkle(_token);
+        token = MerkleToken(_token);
     }
     
     function claim(bytes32[] calldata proof, uint id, string memory secret) external{
