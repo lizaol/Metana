@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.18;
 
 contract BitWise {
     // count the number of bit set in data.  i.e. data = 7, result = 3
@@ -11,20 +11,20 @@ contract BitWise {
             }
         }
     }
-
-    function countBitSetAsm(uint8 data ) public returns (uint8 result) {
+    
+    function countBitSetAsm(uint8 data ) public pure returns (uint8 result) {
         // replace following line with inline assembly code
         // result = countBitSet(data);
+
         assembly{
-            let ptr := mload(0x40)  //default memory pointer
-            mstore(ptr, data)
-            let success := call(gas(), address(), 0, ptr, 0x01, ptr, 0x01 )
-            // gas() - entire remaning gas; address(this); 0 eth; memory location; 8bits = 1byte input data in bytes; putput location; output size
-            if success{     // check if returns non-zero
-                result := mload(ptr)
+            for { let i := 0 } lt(i, 8) { i := add(i,1) }{
+                if eq(and(shr(i, data),1), 1)  {
+                    result := add(result, 1)
+                }
             }
         }
     }
+
 }
 
 // Add following test cases for String contract: 
@@ -33,12 +33,17 @@ contract BitWise {
 // charAt("george", 10) should return 0x0000
 
 contract String {
-   function charAt(string memory input, uint index) public pure returns(bytes2) {
-        assembly{
-            // add logic here
-            // return the character from input at the given 
-            // index
-            // where index is base 0
+   function charAt(string memory input, uint index) public pure returns(bytes2 result) {
+       bytes32 str;
+        assembly {
+            str := mload(add(input, add(index, 32)))
+            result := shl(248, shr(248, str))
         }
    }
+}
+
+contract testString{ 
+    function testS(String str) public pure returns (bytes2, bytes2, bytes2){
+        return (str.charAt("abcdef", 2), str.charAt("", 0), str.charAt("george", 10));
+    }
 }
