@@ -5,10 +5,12 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/utils/structs/BitMaps.sol";
+import "@openzeppelin/contracts/security/PullPayment.sol";
+
 // import "@openzeppelin/contracts/utils/Multicall.sol";
 
 
-contract MerkleToken is ERC721, Ownable {
+contract MerkleToken is ERC721, Ownable, PullPayment {
     using BitMaps for BitMaps.BitMap;
     BitMaps.BitMap private claimed;
     bytes32 public immutable root;
@@ -36,6 +38,7 @@ contract MerkleToken is ERC721, Ownable {
     }
 
     function transferMultipleNFT(uint256[] memory tokenIds, address[] memory to) public {
+        require(stage != Stage.Presale, "Presale isn't over");
         require(tokenIds.length == to.length, "tokenIds length doesnt match to length");
         for(uint i=0; i<to.length; i++){
             require(ownerOf(tokenIds[i]) == msg.sender, "Sender does not own this NFT");
@@ -52,7 +55,7 @@ contract MerkleToken is ERC721, Ownable {
     }
 
     function reveal(uint number, string memory secret) public {
-        require(stage = Stage.PublicSale, "Public sale hasn't started yet /or it's over");
+        require(stage == Stage.PublicSale, "Not Public sale");
         Id storage commit = commits[msg.sender];
         // require(!commit.revealed, "Already revealed");
         require(!hasMinted[msg.sender], "Already revealed");
@@ -63,6 +66,19 @@ contract MerkleToken is ERC721, Ownable {
         commit.nftID = tokenId;
         _safeMint(msg.sender, tokenId);
     }
+
+    function deposit() public payable {
+        _asyncTransfer(msg.sender, msg.value);
+    }
+
+    function withdrawFunds(address[] memory contributors) public payable onlyOwner{
+        for (uint i=0; i<contributors.length; i++){
+            uint256 amount = payments(contributors[i]);     //payments owed to an address
+            require(amount > 0, "Contributor has no funds to withdraw");
+            withdrawPayments(payable(contributors[i]));
+        }
+    }
+
 
     function nextStage() public onlyOwner{
         require(stage != Stage.SupplyOut, "you're at the last stage");
