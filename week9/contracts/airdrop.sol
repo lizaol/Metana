@@ -9,12 +9,16 @@ import "@openzeppelin/contracts/security/PullPayment.sol";
 
 // import "@openzeppelin/contracts/utils/Multicall.sol";
 
+enum Stage{
+        Presale,
+        PublicSale,
+        SupplyOut
+    }
 
 contract MerkleToken is ERC721, Ownable, PullPayment {
     using BitMaps for BitMaps.BitMap;
     BitMaps.BitMap private claimed;
     bytes32 public immutable root;
-    uint public immutable rewardAmount;
     
     struct Id{              
         bytes32 hash;
@@ -22,19 +26,13 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
         uint nftID;
     }
 
-    enum Stage{
-        Presale,
-        PublicSale,
-        SupplyOut
-    }
     Stage public stage;
     mapping(address => Id) public commits;
     mapping(address => bool) public hasMinted;
 
-    constructor(bytes32 _root, uint _amount) ERC721("Merkle", "MER") {
-        root = _root;
-        rewardAmount = _amount;
-        stage = Stage.Presale;
+    constructor(bytes32 _root) ERC721("Merkle", "MER") {
+        root = _root;               //0x4f8ac46ef7cf1c5274a9be484e75681e2fe6e5070e0fa17f5d2806910d30a124 hardhat
+        stage = Stage.Presale;      //0x53c4e5e25bcbb26b82784b9793d8a74a02719aabab34c2d0358b26231e2f4bbe remix
     }
 
     function transferMultipleNFT(uint256[] memory tokenIds, address[] memory to) public {
@@ -48,23 +46,26 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
 
     // commit to a value while keeping it hidden with the ability to reveal it later
     function submitCommit(uint number, string memory secret) public {
+        Id storage commit = commits[msg.sender];
         require(stage == Stage.Presale, "presale is over");
         bytes32 numHash = bytes32(keccak256(abi.encodePacked(number, secret)));
-        require(commits[msg.sender].hash != numHash, "Commitment already submitted");
-        commits[msg.sender] = Id(numHash, block.number, 0);                                 // ????
+        require(commit.hash != numHash, "Commitment already submitted");
+        uint tokenId = uint256(numHash);
+        commit.hash = numHash;
+        commit.blockNum = block.number;
+        commit.nftID = tokenId;    
     }
 
-    function reveal(uint number, string memory secret) public {
+    function reveal(uint number, string memory secret, bytes32[] memory proof) public {
         require(stage == Stage.PublicSale, "Not Public sale");
-        Id storage commit = commits[msg.sender];
-        // require(!commit.revealed, "Already revealed");
+        Id memory commit = commits[msg.sender];
         require(!hasMinted[msg.sender], "Already revealed");
         require(commit.hash == keccak256(abi.encodePacked(number, secret)), "Invalid reveal");
         require(block.number > commit.blockNum + 10, "Reveal too early");
-        uint tokenId = uint256(keccak256(abi.encodePacked(number, secret, blockhash(commit.blockNum + 10))));
+        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        require(MerkleProof.verify(proof, root, leaf));
         hasMinted[msg.sender] = true;
-        commit.nftID = tokenId;
-        _safeMint(msg.sender, tokenId);
+        _safeMint(msg.sender, commit.nftID);
     }
 
     function deposit() public payable {

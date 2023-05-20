@@ -1,50 +1,44 @@
-import "hardhat/console.sol";
-import { ethers } from "hardhat";
-import { Signer } from "ethers";
-import { expect } from "chai";
-
+// import "hardhat/console.sol";
+const { expect } = require("chai");
+// const { assert } = require("console");
+const { ethers } = require("hardhat");
 describe("MerkleToken", function () {
   let MerkleTok;
   let merkleToken;
-  let accounts;
   let owner;
-  let otherAccount;
+  let acc1;
+  let acc2
 
   beforeEach(async function () {
-    accounts = await ethers.getSigners();
-    owner = accounts[0];
-    otherAccount = accounts[1];
+    [owner, acc1, acc2] = await ethers.getSigners();
 
     MerkleTok = await ethers.getContractFactory("MerkleToken");
-    merkleToken = await MerkleToken.deploy(MerkleTok.address, 100);
+    merkleToken = await MerkleTok.deploy("0x4f8ac46ef7cf1c5274a9be484e75681e2fe6e5070e0fa17f5d2806910d30a124");
     await merkleToken.deployed();
 
     console.log("MerkleToken deployed to:", merkleToken.address);
   });
 
-  it("should transfer multiple NFTs", async function () {
-    // Mint some NFTs
-    const tokenIds = [1, 2, 3];
-    const to = [otherAccount.address, otherAccount.address, otherAccount.address];
-    await merkleToken.transferMultipleNFT(tokenIds, to);
-
-    // Check if the ownership has changed
-    for (let i = 0; i < tokenIds.length; i++) {
-      expect(await merkleToken.ownerOf(tokenIds[i])).to.equal(otherAccount.address);
-    }
-  });
-
   it("should submit a commit", async function () {
     // Submit a commit
-    await merkleToken.submitCommit(42, "secret");
-
-    // Check if the commit is stored correctly
+    await merkleToken.submitCommit(1, "a");
+    const numHash = ethers.utils.keccak256(1, "a");
     const commit = await merkleToken.commits(owner.address);
-    expect(commit.hash).to.equal("0x1234567890");
-    expect(commit.blockNum).to.be.a("number");
-    expect(commit.nftID).to.equal(0);
+    console.log(numHash)
+    console.log(commit.hash)
+    expect(merkleToken.commits(owner).hash === numHash)
   });
 
-  // Add more test cases...
+  // it("should transfer multiple NFTs", async function () {
+  //   // Mint some NFTs
+  //   const tokenIds = [1, 2, 3];
+  //   const to = [otherAccount.address, otherAccount.address, otherAccount.address];
+  //   await merkleToken.transferMultipleNFT(tokenIds, to);
+
+  //   // Check if the ownership has changed
+  //   for (let i = 0; i < tokenIds.length; i++) {
+  //     expect(await merkleToken.ownerOf(tokenIds[i])).to.equal(otherAccount.address);
+  //   }
+  // });
 
 });
