@@ -19,14 +19,15 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
     using BitMaps for BitMaps.BitMap;
     BitMaps.BitMap private claimed;
     bytes32 public immutable root;
-    
+    Stage public stage;
+
     struct Id{              
         bytes32 hash;
         uint blockNum;
         uint nftID;
     }
 
-    Stage public stage;
+    
     mapping(address => Id) public commits;
     mapping(address => bool) public hasMinted;
 
