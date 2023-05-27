@@ -49,8 +49,9 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
     function submitCommit(uint number, string memory secret) public {
         Id storage commit = commits[msg.sender];
         require(stage == Stage.Presale, "presale is over");
-        bytes32 numHash = bytes32(keccak256(abi.encodePacked(number, secret)));
+        bytes32 numHash = keccak256(abi.encodePacked(number, secret));
         require(commit.hash != numHash, "Commitment already submitted");
+        require(!hasMinted[msg.sender], "Already revealed");
         uint tokenId = uint256(numHash);
         commit.hash = numHash;
         commit.blockNum = block.number;
@@ -61,7 +62,8 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
         require(stage == Stage.PublicSale, "Not Public sale");
         Id memory commit = commits[msg.sender];
         require(!hasMinted[msg.sender], "Already revealed");
-        require(commit.hash == keccak256(abi.encodePacked(number, secret)), "Invalid reveal");
+        // bytes32 numHash = keccak256(abi.encodePacked(number, secret));
+        require(commit.hash == keccak256(abi.encodePacked(number, secret)), "Invalid number and secret");
         require(block.number > commit.blockNum + 10, "Reveal too early");
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
         require(MerkleProof.verify(proof, root, leaf));

@@ -32,14 +32,16 @@ const whitelistRemix = [
 ]
 
 function main() {
-    const leaves = whitelistRemix.map(addr => keccak256(addr));
+    const leaves = whitelist.map(addr => keccak256(addr));
     const merkleTree = new MerkleTree(leaves, keccak256, {sortPairs: true});      // {sortPairs: true} ensures that the leaf nodes and their corresponding hashes are sorted before constructing the Merkle tree
     const rootHash = merkleTree.getRoot().toString('hex');
     console.log(`\nWhitelist Merkle Root: 0x${rootHash}\n`);
 
-    whitelistRemix.forEach((address) => {
+    whitelist.forEach((address) => {
         const proof =  merkleTree.getHexProof(keccak256(address));
-        console.log(`Address: ${address} Proof: ${proof}\n`);
+        const formattedProof = proof.map(p => `'${p}'`).join(',');
+        console.log(`Address: ${address} Proof: ${formattedProof}\n`);
+        // console.log(`Address: ${address} Proof: '${proof}'\n`);
     });
 }
     
