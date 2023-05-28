@@ -18,21 +18,7 @@ describe("MerkleToken", function () {
 
     console.log("MerkleToken deployed to:", merkleToken.address);
   });
-  // it("should submit a commit and reveal successfully", async function () {
-  //   // Submit a commit
-  //   await merkleToken.submitCommit(1, "a");
 
-  //   // Get the commit details
-  //   const commit = await merkleToken.commits(owner.address);
-  //   // const numHash = ethers.utils.keccak256(ethers.utils.defaultAbiCoder.encode(["uint", "string"], [1, "a"]));
-  //   console.log("hash: ", commit.hash)
-  //   // Advance to the PublicSale stage
-  //   await merkleToken.nextStage();
-
-  //   // Reveal with the same number and secret
-  //   await merkleToken.reveal(1, "a");
-
-  // });
   it("should submit a commit and reveal", async function () {
     // Submit a commit
     await merkleToken.submitCommit(1, "a");
