@@ -37,17 +37,16 @@ async function getNonce(address){
       }
 }
 
-getNonce(address)
 
 
-async function createTransaction(){
-  const privateKey = Buffer.from('YOUR_PRIVATE_KEY', 'hex');
-  const senderAddress = 'SENDER_ADDRESS';
-  const recipientAddress = 'RECIPIENT_ADDRESS';
-  const value = 'VALUE_IN_WEI';
+async function createTransaction(privateKey, address){
+  const privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
+  const senderAddress = address;
+  const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
+  const value = '1000000000000000000';  // 1 eth
   const gasPrice = 'GAS_PRICE_IN_WEI';
   const gasLimit = 'GAS_LIMIT';
-  const nonce = 'NONCE';
+  const nonce = getNonce(address);
 
   const tx = new Transaction(
     {
@@ -58,7 +57,8 @@ async function createTransaction(){
       value: value,
       data: '',
     },
-    { chain: '???' } 
+    // { chain: '???' } 
   );
-  
 }
+
+createTransaction(privateKey, address)
