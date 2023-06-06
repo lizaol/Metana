@@ -37,28 +37,81 @@ async function getNonce(address){
       }
 }
 
+// async function getGas(address){
+//   const ganacheUrl = 'HTTP://127.0.0.1:7545'; 
 
+// const senderAddress = address;
+// const recipientAddress = '0x78A89bcE9DB5871F0cD6d68bc2BC8492e653b624';
+// const value = '1000000000000000000';
 
-async function createTransaction(privateKey, address){
-  const privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
-  const senderAddress = address;
-  const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
-  const value = '1000000000000000000';  // 1 eth
-  const gasPrice = 'GAS_PRICE_IN_WEI';
-  const gasLimit = 'GAS_LIMIT';
-  const nonce = getNonce(address);
+// const requestData = {
+//   method: 'eth_estimateGas',
+//   params: [
+//     {
+//       from: senderAddress,
+//       to: recipientAddress,
+//       value: value,
+//     },
+//   ],
+//   jsonrpc: '2.0',
+//   id: 1,
+// };
 
-  const tx = new Transaction(
-    {
-      nonce: nonce,
-      gasPrice: gasPrice,
-      gasLimit: gasLimit,
-      to: recipientAddress,
-      value: value,
-      data: '',
-    },
-    // { chain: '???' } 
-  );
+// // Send the request to the Ganache instance
+// fetch(ganacheUrl, {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(requestData),
+// })
+//   .then((response) => response.json())
+//   .then((data) => {
+//     if (data.error) {
+//       console.error('Error estimating gas:', data.error.message);
+//     } else {
+//       const estimatedGas = parseInt(data.result);
+//       console.log('Estimated gas:', estimatedGas);
+//     }
+//   })
+//   .catch((error) => {
+//     console.error('Error estimating gas:', error);
+//   });
+
+// }
+// getGas(address)
+
+async function getGasPrice() {
+  try {
+    const gasPrice = await web3.eth.getGasPrice();
+    console.log('Gas Price:', gasPrice);
+    return gasPrice;
+  } catch (error) {
+    console.error('Error fetching gas price:', error);
+  }
 }
+getGasPrice();
 
-createTransaction(privateKey, address)
+// async function createTransaction(privateKey, address){
+//   // privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
+//   const senderAddress = address;
+//   const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
+//   const value = '1000000000000000000';  // 1 eth
+//   const gasPrice = 'GAS_PRICE_IN_WEI';
+//   const gasLimit = 'GAS_LIMIT';
+//   const nonce = getNonce(address);
+
+//   const tx = new Transaction(
+//     {
+//       nonce: nonce,
+//       gasPrice: gasPrice,
+//       gasLimit: gasLimit,
+//       to: recipientAddress,
+//       value: value,
+//       data: '',
+//     },
+//     // { chain: '???' } 
+//   );
+// }
+
+// createTransaction(privateKey, address)
