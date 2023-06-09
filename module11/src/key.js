@@ -24,7 +24,6 @@ function getAddress(){
     console.log("Address", address)
     return { privateKey, publicKey, address }
 }
-// getAddress()
 const { privateKey, publicKey, address } = getAddress();
 
 async function getNonce(address){
@@ -36,7 +35,9 @@ async function getNonce(address){
         console.error('Error retrieving nonce:', error);
       }
 }
+function sendTx(){
 
+}
 // async function getGas(address){
 //   const ganacheUrl = 'HTTP://127.0.0.1:7545'; 
 
@@ -90,28 +91,43 @@ async function getGasPrice() {
     console.error('Error fetching gas price:', error);
   }
 }
-getGasPrice();
+// getGasPrice();
 
-// async function createTransaction(privateKey, address){
-//   // privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
-//   const senderAddress = address;
-//   const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
-//   const value = '1000000000000000000';  // 1 eth
-//   const gasPrice = 'GAS_PRICE_IN_WEI';
-//   const gasLimit = 'GAS_LIMIT';
-//   const nonce = getNonce(address);
+async function createTransaction(privateKey, address, valueInWei){
+  // privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
+  try{
+    const senderAddress = address;
+    const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
+    const value = valueInWei;  
+    const gasPrice = await getGasPrice();
+    const gasLimit = 250000;
+    const nonce = await getNonce(address);
+    const chainId = 1377;   // ganache 
 
-//   const tx = new Transaction(
-//     {
-//       nonce: nonce,
-//       gasPrice: gasPrice,
-//       gasLimit: gasLimit,
-//       to: recipientAddress,
-//       value: value,
-//       data: '',
-//     },
-//     // { chain: '???' } 
-//   );
-// }
+    const tx = new Transaction(
+      {
+        nonce: Buffer.from(nonce.toString(), 'hex'),
+        gasPrice: Buffer.from(gasPrice, 'hex'),
+        gasLimit: gasLimit,
+        to: recipientAddress,
+        value: value,
+        data: '',
+      },
+      { chain: 'mainnet' } 
+    );
+    // const tx = new Transaction(txParams, { chain: 'mainnet' });
+    tx.sign(privateKey)
+    const serializedTx = tx.serialize();
+    const rawTransaction = '0x' + serializedTx.toString('hex');
 
-// createTransaction(privateKey, address)
+    // Submit the transaction to the Ethereum network
+    const receipt = await web3.eth.sendSignedTransaction(rawTransaction);
+    console.log('Transaction hash:', receipt.transactionHash);
+    console.log('Gas used:', receipt.gasUsed);
+    console.log('Transaction successful!');
+  } catch (error) {
+    console.error('Transaction failed:', error);
+  }
+}
+
+createTransaction(privateKey, address)
