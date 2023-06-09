@@ -1,7 +1,8 @@
 const EC = require('elliptic').ec;
+const { Common, Chain, Hardfork } = require('@ethereumjs/common')
 const keccak256 = require('keccak256');
 const Web3 = require("web3");
-const Transaction = require('ethereumjs-tx').Transaction;
+const {Transaction} = require('ethereumjs-tx')
 
 // const { getDefaultHighWaterMark } = require('stream');
 // Connect to Ganache
@@ -29,15 +30,15 @@ const { privateKey, publicKey, address } = getAddress();
 async function getNonce(address){
     try {
         const nonce = await web3.eth.getTransactionCount(address);
+        const nonceHex = web3.utils.toHex(nonce);
+        console.log('Nonce (hex):', nonceHex);
         console.log('nonce', nonce)
-        return nonce;
+        return nonceHex;
       } catch (error) {
         console.error('Error retrieving nonce:', error);
       }
 }
-function sendTx(){
 
-}
 // async function getGas(address){
 //   const ganacheUrl = 'HTTP://127.0.0.1:7545'; 
 
@@ -85,37 +86,65 @@ function sendTx(){
 async function getGasPrice() {
   try {
     const gasPrice = await web3.eth.getGasPrice();
+    const gasPriceHex = web3.utils.toHex(gasPrice);
+    console.log('Gas Price (Hex):', gasPriceHex);
     console.log('Gas Price:', gasPrice);
-    return gasPrice;
+    return gasPriceHex;
   } catch (error) {
     console.error('Error fetching gas price:', error);
   }
 }
 // getGasPrice();
 
-async function createTransaction(privateKey, address, valueInWei){
+async function createTransaction( address, valueInWei){
   // privateKey = privateKey   //Buffer.from('PRIVATE_KEY', 'hex');
   try{
     const senderAddress = address;
     const recipientAddress = '0x2a76087f400e15D71392ca7cFb9269fC6833e790';
-    const value = valueInWei;  
+    const value = '0x00' //valueInWei // 1 Ether;  
     const gasPrice = await getGasPrice();
     const gasLimit = 250000;
     const nonce = await getNonce(address);
     const chainId = 1377;   // ganache 
 
-    const tx = new Transaction(
-      {
-        nonce: Buffer.from(nonce.toString(), 'hex'),
-        gasPrice: Buffer.from(gasPrice, 'hex'),
-        gasLimit: gasLimit,
-        to: recipientAddress,
-        value: value,
-        data: '',
-      },
-      { chain: 'mainnet' } 
-    );
+    // const txParams = {
+    //   nonce: nonce,
+    //   gasPrice: gasPrice,
+    //   gasLimit: '0x3D090',    // 250000
+    //   to: '0x78A89bcE9DB5871F0cD6d68bc2BC8492e653b624', // ganache 
+    //   value: value,
+    //   data: '',
+    // }
+    // const common = new Common({ chain: Chain.Mainnet, hardfork: Hardfork.Istanbul })
+    // const tx = Transaction.fromTxData(txParams, { common });
+
+
+    // const tx = new Transaction({
+    //   nonce: nonce,
+    //   gasPrice: gasPrice,
+    //   gasLimit: '0x3D090',    // 250000
+    //   to: '0x78A89bcE9DB5871F0cD6d68bc2BC8492e653b624', // ganache 
+    //   value: value,
+    //   data: '',
+    // }, { chain: 'mainnet' });
     // const tx = new Transaction(txParams, { chain: 'mainnet' });
+
+    const txParams = {
+      nonce: '0x00',
+      gasPrice: '0x09184e72a000',
+      gasLimit: '0x2710',
+      to: '0x0000000000000000000000000000000000000000',
+      value: '0x00',
+      data: '0x7f7465737432000000000000000000000000000000000000000000000000000000600057',
+    }
+    
+    const common = new Common({ chain: Chain.Mainnet })
+    // const tx = Transaction.fromTxData(txParams, { common })
+    const tx = new Transaction(txParams, { Common });
+    const privateKey = Buffer.from(
+      'e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109',
+      'hex'
+    )
     tx.sign(privateKey)
     const serializedTx = tx.serialize();
     const rawTransaction = '0x' + serializedTx.toString('hex');
@@ -125,6 +154,9 @@ async function createTransaction(privateKey, address, valueInWei){
     console.log('Transaction hash:', receipt.transactionHash);
     console.log('Gas used:', receipt.gasUsed);
     console.log('Transaction successful!');
+
+
+
   } catch (error) {
     console.error('Transaction failed:', error);
   }
