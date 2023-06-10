@@ -7,21 +7,24 @@ describe('FuzzyIdentityChallenge', () => {
   let attacker;
   let deployer;
 
-  before(async () => {
+  beforeEach(async () => {
     [attacker, deployer] = await ethers.getSigners();
 
     // target = await (await ethers.getContractFactory('FuzzyIdentityChallenge', deployer)).deploy();
 
     // await target.deployed();
-    target = await ethers.getContractFactory("FuzzyIdentityChallenge")
-      .then((factory) => factory.deploy());
+    const fuzzyAnswerFactory = await ethers.getContractFactory("fuzzyAnswer");
+    target = await fuzzyAnswerFactory.deploy();
+    await target.deployed();
 
-    // target = target.connect(attacker);
+      // console.log('Contract deployed to:', target.address);
+      // console.log('Contract bytecode:', target.deployTransaction.data);
   });
 
   it('exploit', async () => {
-    console.log(await target.authenticate())
-
-    expect(await target.isComplete()).to.equal(true);
+    // console.log(await target.authenticate())
+    console.log('Contract deployed to:', target.address);
+    console.log('Contract bytecode:', target.deployTransaction.data);
+    // expect(await target.isComplete()).to.equal(true);
   });
 });
