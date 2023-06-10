@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/security/PullPayment.sol";
 // import "@openzeppelin/contracts/utils/Multicall.sol";
+import "@1001-digital/erc721-extensions/contracts/RandomlyAssigned.sol";
 
 enum Stage{
         Presale,
@@ -13,7 +14,7 @@ enum Stage{
         SupplyOut
     }
 
-contract MerkleToken is ERC721, Ownable, PullPayment {
+contract MerkleToken is RandomlyAssigned, ERC721, Ownable, PullPayment {
     bytes32 public immutable root;
     Stage public stage;
 
@@ -26,7 +27,7 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
     mapping(address => Id) public commits;
     mapping(address => bool) public hasMinted;
 
-    constructor(bytes32 _root) ERC721("Merkle", "MER") {
+    constructor(bytes32 _root) RandomlyAssigned(100, 0) ERC721("Merkle", "MER") {
         root = _root;               //0x4f8ac46ef7cf1c5274a9be484e75681e2fe6e5070e0fa17f5d2806910d30a124 hardhat
         stage = Stage.Presale;      //0x53c4e5e25bcbb26b82784b9793d8a74a02719aabab34c2d0358b26231e2f4bbe remix
     }
@@ -47,11 +48,13 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
         bytes32 numHash = keccak256(abi.encodePacked(number, secret));
         require(commit.hash != numHash, "Commitment already submitted");
         require(!hasMinted[msg.sender], "Already revealed");
-        uint tokenId = uint256(numHash);
+        // uint tokenId = uint256(numHash);
+        uint tokenId = nextToken();
         commit.hash = numHash;
         commit.blockNum = block.number;
         commit.nftID = tokenId;    
     }
+
 
     function reveal(uint number, string memory secret, bytes32[] memory proof) public {
         require(stage == Stage.PublicSale, "Not Public sale");
@@ -65,9 +68,11 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
         _safeMint(msg.sender, commit.nftID);
     }
 
-    function deposit() public payable {
-        _asyncTransfer(msg.sender, msg.value);
-    }
+    function publicSale() public payable{
+        require(stage == Stage.PublicSale, "Not Public sale");
+        require(msg.value == 1 ether, "Send 1 eth");
+        _safeMint(msg.sender, nextToken());
+    }    
 
     function withdrawFunds(address[] memory contributors) public payable onlyOwner{
         for (uint i=0; i<contributors.length; i++){
@@ -77,11 +82,14 @@ contract MerkleToken is ERC721, Ownable, PullPayment {
         }
     }
 
-
     function nextStage() public onlyOwner{
         require(stage != Stage.SupplyOut, "you're at the last stage");
         stage = Stage(uint(stage) + 1);         //casting: enum members are assigned consecutive integers starting from 0
     } 
+
+    receive() external payable{
+
+    }
 
 }
  
